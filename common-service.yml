@@ -19,3 +19,4 @@ services:
       - $PWD/assets/faucet:/app/casper-nctl/assets/net-1/faucet/
       - $PWD/assets/users:/app/casper-nctl/assets/net-1/users/
       - $PWD/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec/
+      - $PWD/assets/nodes:/app/casper-nctl/assets/net-1/nodes/
