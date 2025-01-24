@@ -20,9 +20,9 @@ services:
     profiles: ["2.0"]
     build:
       args:
-        - BRANCH_NODE=feat-2.0
+        - BRANCH_NODE=release-2.0.0-rc6
         - BRANCH_CLIENT=feat-track-node-2.0
-        - BRANCH_SIDECAR=feat-2.0
+        - BRANCH_SIDECAR=release-1.0.0-rc4_node-2.0.0-rc6
 
   casper-nctl-2-docker-dev:
     image: casper-nctl-2-docker-dev:latest
@@ -34,7 +34,8 @@ services:
     build:
       args:
         - BRANCH_NODE=dev
-        - BRANCH_CLIENT=dev
+        - BRANCH_CLIENT=feat-track-node-2.0
+        - BRANCH_SIDECAR=feat-2.0
 
   cors-anywhere:
     container_name: cors-anywhere

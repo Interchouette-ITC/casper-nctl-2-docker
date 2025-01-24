@@ -1,6 +1,6 @@
 FROM python:3-slim-bookworm as build
 
-ARG BRANCH_NODE=release-1.5.7
+ARG BRANCH_NODE=release-1.5.8
 ARG BRANCH_CLIENT=release-2.0.0
 ARG BRANCH_SIDECAR
 
