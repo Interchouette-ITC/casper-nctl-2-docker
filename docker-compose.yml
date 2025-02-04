@@ -5,7 +5,7 @@ services:
     extends:
       service: casper-nctl-2-docker
       file: common-service.yml
-    profiles: ["stable"]
+    profiles: ['stable']
     build:
       args:
         - BRANCH_NODE=release-1.5.8
@@ -17,11 +17,11 @@ services:
     extends:
       service: casper-nctl-2-docker
       file: common-service.yml
-    profiles: ["2.0"]
+    profiles: ['2.0']
     build:
       args:
         - BRANCH_NODE=release-2.0.0-rc6
-        - BRANCH_CLIENT=feat-track-node-2.0
+        - BRANCH_CLIENT=release-3.0.1-rc2_node-2.0.0-rc6
         - BRANCH_SIDECAR=release-1.0.0-rc4_node-2.0.0-rc6
 
   casper-nctl-2-docker-dev:
@@ -30,7 +30,7 @@ services:
     extends:
       service: casper-nctl-2-docker
       file: common-service.yml
-    profiles: ["dev"]
+    profiles: ['dev']
     build:
       args:
         - BRANCH_NODE=dev
@@ -39,7 +39,7 @@ services:
 
   cors-anywhere:
     container_name: cors-anywhere
-    profiles: ["cors-anywhere"]
+    profiles: ['cors-anywhere']
     build:
       context: ./cors
       dockerfile: cors-anywhere.Dockerfile
