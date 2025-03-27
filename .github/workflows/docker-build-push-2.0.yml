@@ -1,4 +1,4 @@
-name: Nightly Build and Push Docker Image
+name: Nightly Build and Push Docker Image 2.0
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - dev
 
 jobs:
-  build:
+  nightly-build-push-2-0:
+    name: Nightly Build and Push Docker Image 2.0
     runs-on: ubuntu-latest
 
     steps:
