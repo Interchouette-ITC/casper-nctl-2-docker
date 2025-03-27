@@ -30,8 +30,6 @@ WORKDIR /app
 
 RUN git clone -b $BRANCH_NODE https://github.com/casper-network/casper-node.git ;
 RUN git clone -b $BRANCH_CLIENT https://github.com/casper-ecosystem/casper-client-rs.git ;
-# Temp Fix https://github.com/casper-ecosystem/casper-client-rs/pull/238
-RUN sed -i 's/80/85/' casper-client-rs/rust-toolchain.toml
 RUN git clone -b main https://github.com/casper-network/casper-node-launcher.git ;
 RUN if [ -n "$BRANCH_SIDECAR" ]; then \
   git clone https://github.com/casper-network/casper-nctl.git ; \
