@@ -36,8 +36,9 @@ jobs:
       - name: Build Docker image for dev
         run: |
           make build dev
+          docker tag casper-nctl-2-docker-dev ${{ secrets.DOCKER_USERNAME }}/casper-nctl:2.0
 
       # Step 6: Push the Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker push gregoshop/casper-nctl:dev
+          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl:dev
