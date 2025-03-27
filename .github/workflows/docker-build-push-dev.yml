@@ -9,7 +9,7 @@ on:
 
 jobs:
   nightly-build-push-dev:
-    name: Nightly Build and Push Docker Image dev
+    name: Build and Push Docker Image dev
     runs-on: ubuntu-latest
 
     steps:
