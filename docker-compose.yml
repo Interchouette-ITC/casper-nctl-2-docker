@@ -20,9 +20,9 @@ services:
     profiles: ['2.0']
     build:
       args:
-        - BRANCH_NODE=release-2.0.0-rc9
+        - BRANCH_NODE=release-2.0.1
         - BRANCH_CLIENT=v3.0.1
-        - BRANCH_SIDECAR=v1.0.3
+        - BRANCH_SIDECAR=v1.0.4
 
   casper-nctl-2-docker-dev:
     image: casper-nctl-2-docker-dev:latest
