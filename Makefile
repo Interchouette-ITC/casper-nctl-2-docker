@@ -41,21 +41,37 @@ stop:
 start-docker:
 	docker run --rm -it ${IMAGE_NAME}:$(PROFILE)
 
-# 🔧 Start the Docker container for the stable version
-start-docker-stable:
-	docker run --rm -it ${IMAGE_NAME}:stable
+# List of ports to expose
+DOCKER_PORTS = \
+	-p 11101-11105:11101-11105 \
+	-p 14101-14105:14101-14105 \
+	-p 18101-18105:18101-18105 \
+	-p 25101-25105:25101-25105 \
+	-p 28101-28105:28101-28105
 
-# 🔧 Start the Docker container for the dev version
-start-docker-dev:
-	docker run --rm -it ${IMAGE_NAME}:dev
+# Common Docker volume mappings
+DOCKER_VOLUMES = \
+	-v ${PWD}/assets/logs:/app/casper-nctl/assets/net-1/nodes/node-1/logs \
+	-v ${PWD}/assets/faucet:/app/casper-nctl/assets/net-1/faucet \
+	-v ${PWD}/assets/users:/app/casper-nctl/assets/net-1/users \
+	-v ${PWD}/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec \
+	-v ${PWD}/assets/nodes:/app/casper-nctl/assets/net-1/nodes
 
-# 🔧 Start the Docker container for the 2.0 version
-start-docker-2.0:
-	docker run --rm -it ${IMAGE_NAME}:2.0
+# Run container based on passed version
+define RUN_DOCKER
+	docker run --rm -it \
+		$(DOCKER_PORTS) \
+		$(DOCKER_VOLUMES) \
+		${IMAGE_NAME}:$1
+endef
+
+# Targets
+start-docker-%:
+	$(call RUN_DOCKER,$*)
 
 # Catch-all rule for unrecognized make targets
 %:
 	@:
 
 # Mark targets as not real files
-.PHONY: build start build-start build-start-log start-docker start-docker-stable start-docker-dev start-docker-2.0
+.PHONY: build start build-start build-start-log start-docker-%
