@@ -65,10 +65,10 @@ Casper NCTL 2 Docker supports three configurations:
 
 ### 🔷 **2.0 (Specific Release)**
 
-- Uses **release-2.0.0-rc9** for the node, **v3.0.1** for the client, and **v1.0.3** for the sidecar.
+- Uses **release-2.0.0-rc10** for the node, **v3.0.1** for the client, and **v1.0.3** for the sidecar.
 
 ```yaml
-- BRANCH_NODE=release-2.0.0-rc9
+- BRANCH_NODE=release-2.0.0-rc10
 - BRANCH_CLIENT=v3.0.1
 - BRANCH_SIDECAR=v1.0.3
 ```
@@ -181,7 +181,7 @@ Provides the 2.0 environment for Casper Node and Client.
 
 - **Image:** `casper-nctl-2-docker-2.0:latest`
 - **Build Args:**
-  - `BRANCH_NODE=release-2.0.1`
+  - `BRANCH_NODE=release-2.0.0-rc10`
   - `BRANCH_CLIENT=v3.1.0`
   - `BRANCH_SIDECAR=v1.0.4`
 - **Profiles:**
