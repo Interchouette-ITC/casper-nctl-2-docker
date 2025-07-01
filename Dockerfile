@@ -1,4 +1,4 @@
-FROM python:3-slim-bookworm as build
+FROM python:slim-bookworm AS build
 
 ARG BRANCH_NODE=release-1.5.8
 ARG BRANCH_CLIENT=release-2.0.0
@@ -55,7 +55,7 @@ RUN if [ -n "$BRANCH_SIDECAR" ]; then \
 
 # CMD ["/bin/bash", "-ci", "cat compile_output.txt"]
 
-FROM python:3-slim-bookworm as run
+FROM python:slim-bookworm AS run
 
 ARG BRANCH_SIDECAR
 ENV BRANCH_SIDECAR=${BRANCH_SIDECAR}
