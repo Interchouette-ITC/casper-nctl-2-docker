@@ -20,7 +20,7 @@ services:
     profiles: ['2.0']
     build:
       args:
-        - BRANCH_NODE=release-2.0.0-rc10
+        - BRANCH_NODE=release-2.0.3
         - BRANCH_CLIENT=v3.1.0
         - BRANCH_SIDECAR=v1.0.4
 
