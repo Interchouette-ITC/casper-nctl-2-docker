@@ -8,8 +8,8 @@ services:
     profiles: ['stable']
     build:
       args:
-        - BRANCH_NODE=release-1.5.8
-        - BRANCH_CLIENT=release-2.0.0
+        - BRANCH_NODE=v1.5.8
+        - BRANCH_CLIENT=v2.0.0
 
   casper-nctl-2-docker-2.0:
     image: casper-nctl-2-docker-2.0:latest
@@ -20,7 +20,7 @@ services:
     profiles: ['2.0']
     build:
       args:
-        - BRANCH_NODE=release-2.0.3
+        - BRANCH_NODE=v2.0.3
         - BRANCH_CLIENT=v4.0.1
         - BRANCH_SIDECAR=v2.0.0
 

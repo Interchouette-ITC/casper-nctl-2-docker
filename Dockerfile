@@ -28,16 +28,37 @@ SHELL ["/bin/bash", "--login", "-c"]
 
 WORKDIR /app
 
-RUN git clone -b $BRANCH_NODE https://github.com/casper-network/casper-node.git ;
-RUN git clone -b $BRANCH_CLIENT https://github.com/casper-ecosystem/casper-client-rs.git ;
+RUN if [ "$BRANCH_NODE" = "dev" ]; then \
+  git clone -b "$BRANCH_NODE" https://github.com/casper-network/casper-node.git ; \
+  else \
+  git clone https://github.com/casper-network/casper-node.git && \
+  cd casper-node && \
+  git fetch --tags && \
+  git checkout "tags/$BRANCH_NODE" ; \
+  fi
+RUN if [ "$BRANCH_CLIENT" = "dev" ]; then \
+  git clone -b "$BRANCH_CLIENT" https://github.com/casper-ecosystem/casper-client-rs.git ; \
+  else \
+  git clone https://github.com/casper-ecosystem/casper-client-rs.git && \
+  cd casper-client-rs && \
+  git fetch --tags && \
+  git checkout "tags/$BRANCH_CLIENT" ; \
+  fi
 RUN git clone -b main https://github.com/casper-network/casper-node-launcher.git ;
 RUN if [ -n "$BRANCH_SIDECAR" ]; then \
   git clone https://github.com/casper-network/casper-nctl.git ; \
-  git clone -b $BRANCH_SIDECAR https://github.com/casper-network/casper-sidecar.git ; \
+  if [ "$BRANCH_SIDECAR" = "dev" ]; then \
+  git clone -b "$BRANCH_SIDECAR" https://github.com/casper-network/casper-sidecar.git ; \
+  else \
+  git clone https://github.com/casper-network/casper-sidecar.git && \
+  cd casper-sidecar && \
+  git fetch --tags && \
+  git checkout "tags/$BRANCH_SIDECAR" ; \
+  fi ; \
   else \
   mkdir -p casper-sidecar/target/release && mkdir casper-sidecar/resources ; \
   touch casper-sidecar/target/release/casper-sidecar ; \
-  ln -s casper-node/utils/nctl casper-nctl ;\
+  ln -s casper-node/utils/nctl casper-nctl ; \
   fi
 
 COPY sh/*.sh .
