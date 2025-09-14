@@ -35,30 +35,26 @@ jobs:
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          username: Verqhealth
+          username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
-
-      # Set Docker tag from input
-      - name: Set Docker tag
-        run: echo "TAG=${{ github.event.inputs.tag || 'dev' }}" >> $GITHUB_ENV
 
       # Build and tag Docker image
       - name: Build Docker image for dev
         run: |
           make build dev
-          docker tag casper-nctl-2-docker-dev:latest ghcr.io/verqhealth/casper-nctl-2-docker-dev:$TAG
+          docker tag casper-nctl-2-docker-dev:latest ghcr.io/verqhealth/casper-nctl-2-docker:dev
 
       # Push Docker image to GHCR
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/verqhealth/casper-nctl-2-docker-dev:$TAG
+          docker push ghcr.io/verqhealth/casper-nctl-2-docker:dev
 
       # Verify image exists in GHCR
       - name: Verify Docker image in GHCR
         run: |
           curl -s -o /dev/null -w "%{http_code}" \
           -H "Authorization: Bearer ${{ secrets.GHCR_PAT }}" \
-          "https://ghcr.io/v2/verqhealth/casper-nctl-2-docker-dev/manifests/$TAG" | grep 200
+          "https://ghcr.io/v2/verqhealth/casper-nctl-2-docker/manifests/dev" | grep 200
           if [ $? -ne 0 ]; then
             echo "Docker image not found in GHCR"
             exit 1
