@@ -54,9 +54,9 @@ jobs:
       # Step 8: Tag image for dev
       - name: Tag Docker image for dev
         run: |
-          docker tag casper-nctl-2-docker-dev ghcr.io/${{ github.repository_owner }}/casper-nctl:dev
+          docker tag casper-nctl-2-docker-dev ghcr.io/gRoussac/casper-nctl:dev
 
       # Step 9: Push the Docker image to GHCR
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/casper-nctl:dev
+          docker push ghcr.io/gRoussac/casper-nctl:dev
