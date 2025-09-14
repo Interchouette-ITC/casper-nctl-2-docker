@@ -40,3 +40,21 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl:2.0
+
+      # Step 7: # Log in to GHCR
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      # Step 8: Tag image for 2.0
+      - name: Tag Docker image for 2.0
+        run: |
+          docker tag casper-nctl-2-docker-2.0 ${{ github.actor }}/casper-nctl:2.0
+
+      # Step 9: Push the Docker image to GHCR
+      - name: Push Docker image to GHCR
+        run: |
+          docker push ${{ github.actor }}/casper-nctl:2.0
