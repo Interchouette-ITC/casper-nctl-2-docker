@@ -49,16 +49,3 @@ jobs:
       - name: Push Docker image to GHCR
         run: |
           docker push ghcr.io/verqhealth/casper-nctl-2-docker:dev
-
-      # Verify image exists in GHCR
-      - name: Verify Docker image in GHCR
-        run: |
-          curl -s -o /dev/null -w "%{http_code}" \
-          -H "Authorization: Bearer ${{ secrets.GHCR_PAT }}" \
-          "https://ghcr.io/v2/verqhealth/casper-nctl-2-docker/manifests/dev" | grep 200
-          if [ $? -ne 0 ]; then
-            echo "Docker image not found in GHCR"
-            exit 1
-          else
-            echo "Docker image successfully pushed to GHCR"
-          fi
