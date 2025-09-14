@@ -52,9 +52,9 @@ jobs:
       # Step 8: Tag image for 2.0
       - name: Tag Docker image for 2.0
         run: |
-          docker tag casper-nctl-2-docker-2.0 ghcr.io/gRoussac/casper-nctl:2.0
+          docker tag casper-nctl-2-docker-2.0 ghcr.io/groussac/casper-nctl:2.0
 
       # Step 9: Push the Docker image to GHCR
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/gRoussac/casper-nctl:2.0
+          docker push ghcr.io/groussac/casper-nctl:2.0
