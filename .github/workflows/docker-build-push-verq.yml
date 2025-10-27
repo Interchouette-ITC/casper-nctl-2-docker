@@ -49,3 +49,14 @@ jobs:
       - name: Push Docker image to GHCR
         run: |
           docker push ghcr.io/verqhealth/casper-nctl-2-docker:dev
+
+      # Build Docker image for 2.0
+      - name: Build Docker image for 2.0
+        run: |
+          make build 2.0
+          docker tag casper-nctl-2-docker-2.0 ghcr.io/verqhealth/casper-nctl-2-docker:2.0
+
+      # Push Docker image 2.0 to GHCR
+      - name: Push Docker image 2.0 to GHCR
+        run: |
+          docker push ghcr.io/verqhealth/casper-nctl-2-docker:2.0
