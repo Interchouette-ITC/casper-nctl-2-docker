@@ -1,0 +1,51 @@
+name: CI/CD Image dev VerQ
+
+on:
+  push:
+    branches:
+      - dev
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker image tag'
+        required: false
+        default: 'dev'
+
+jobs:
+  nightly-build-push-dev:
+    name: Nightly Build and Push Docker Image dev
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Install Make if needed
+      - name: Set up Make
+        run: sudo apt-get install -y make
+
+      # Log in to GHCR
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      # Build and tag Docker image
+      - name: Build Docker image for dev
+        run: |
+          make build dev
+          docker tag casper-nctl-2-docker-dev:latest ghcr.io/verqhealth/casper-nctl-2-docker:dev
+
+      # Push Docker image to GHCR
+      - name: Push Docker image to GHCR
+        run: |
+          docker push ghcr.io/verqhealth/casper-nctl-2-docker:dev
