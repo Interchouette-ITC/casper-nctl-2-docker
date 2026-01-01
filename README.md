@@ -16,7 +16,10 @@ This repository contains Docker images and Docker Compose services that simplify
   Uses **Casper Node 1.5.8** and **Casper Client 2.0.0** for a stable environment.
 
 - **2.0 Version:**
-  Uses the **2.0.0-rc9** release candidate for the Casper Node, **v3.0.1** for the Client, and **v1.0.3** for the Sidecar.
+  Uses the **2.0.4** release candidate for the Casper Node, **v5.0.0** for the Client, and **v2.0.0** for the Sidecar.
+
+- **2.1 Version:**
+  Uses **Casper Node 2.1.1**, **v5.0.0** for the Client, and **v2.0.0** for the Sidecar.
 
 - **Development Version:**
   Tracks the latest development versions of **Casper Node, Client**, and **Sidecar**.
@@ -25,7 +28,7 @@ This repository contains Docker images and Docker Compose services that simplify
 
 ## 🚀 Usage
 
-You can choose between `stable`, `dev`, or `2.0`.
+You can choose between `stable`, `dev`, `2.0`, or `2.1`.
 If no profile is specified, **`stable` is used by default**.
 
 ### 🔨 **Build the container**
@@ -46,13 +49,13 @@ make start-log 2.0
 make build-start-log 2.0
 ```
 
-To replace `2.0` with another version, use `stable` or `dev`.
+To replace `2.0` with another version, use `stable`, `dev`, or `2.1`.
 
 ---
 
 ## 🏗 **Available Tags & Profiles**
 
-Casper NCTL 2 Docker supports three configurations:
+Casper NCTL 2 Docker supports four configurations:
 
 ### ✅ **Stable** (default)
 
@@ -69,6 +72,16 @@ Casper NCTL 2 Docker supports three configurations:
 
 ```yaml
 - BRANCH_NODE=v2.0.3
+- BRANCH_CLIENT=v5.0.0
+- BRANCH_SIDECAR=v2.0.0
+```
+
+### 🔷 **2.1 (Specific Release)**
+
+- Uses **v2.1.1** for the node, **v5.0.0** for the client, and **v2.0.0** for the sidecar.
+
+```yaml
+- BRANCH_NODE=v2.1.1
 - BRANCH_CLIENT=v5.0.0
 - BRANCH_SIDECAR=v2.0.0
 ```
@@ -92,7 +105,7 @@ This project provides multiple Docker Compose services:
 ### 🚀 **casper-nctl-2-docker** (Base Service)
 
 - Provides the core infrastructure for running a Casper NCTL node.
-- Used by `stable`, `2.0`, and `dev` profiles.
+- Used by `stable`, `2.0`, `2.1`, and `dev` profiles.
 - **Exposes Ports:**
 
 > 11101-11105, 14101-14105, 18101-18105, 25101-25105, 28101-28105
@@ -186,6 +199,18 @@ Provides the 2.0 environment for Casper Node and Client.
   - `BRANCH_SIDECAR=v2.0.0`
 - **Profiles:**
   - `2.0`
+
+### **casper-nctl-2-docker-2.1**
+
+Provides the 2.1 environment for Casper Node and Client.
+
+- **Image:** `casper-nctl-2-docker-2.1:latest`
+- **Build Args:**
+  - `BRANCH_NODE=v2.1.1`
+  - `BRANCH_CLIENT=v5.0.0`
+  - `BRANCH_SIDECAR=v2.0.0`
+- **Profiles:**
+  - `2.1`
 
 ### **casper-nctl-2-docker-dev**
 

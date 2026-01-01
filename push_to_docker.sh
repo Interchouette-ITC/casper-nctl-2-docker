@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DOCKER_REPO="gregoshop/casper-nctl"
-TAGS=("2.0" "dev" "stable")
+TAGS=("2.0" "2.1" "dev" "stable")
 IMAGE_NAME="casper-nctl-2-docker"
 
 # Loop through the TAGS array
