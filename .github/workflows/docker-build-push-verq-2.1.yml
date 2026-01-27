@@ -1,11 +1,11 @@
-name: CI/CD Image VerQ 2.0
+name: CI/CD Image VerQ 2.1
 
 on:
   workflow_dispatch:
 
 jobs:
   nightly-build-push-2_0:
-    name: Nightly Build and Push Docker Image 2.0
+    name: Nightly Build and Push Docker Image 2.1
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +29,13 @@ jobs:
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
 
-      # Build Docker image for 2.0
-      - name: Build Docker image for 2.0
+      # Build Docker image for 2.1
+      - name: Build Docker image for 2.1
         run: |
-          make build 2.0
-          docker tag casper-nctl-2-docker-2.0 ghcr.io/verqhealth/casper-nctl-2-docker:2.0
+          make build 2.1
+          docker tag casper-nctl-2-docker-2.1 ghcr.io/verqhealth/casper-nctl-2-docker:2.1
 
-      # Push Docker image 2.0 to GHCR
-      - name: Push Docker image 2.0 to GHCR
+      # Push Docker image 2.1 to GHCR
+      - name: Push Docker image 2.1 to GHCR
         run: |
-          docker push ghcr.io/verqhealth/casper-nctl-2-docker:2.0
+          docker push ghcr.io/verqhealth/casper-nctl-2-docker:2.1
