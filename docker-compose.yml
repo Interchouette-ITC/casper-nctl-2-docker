@@ -33,9 +33,22 @@ services:
     profiles: ['2.1']
     build:
       args:
-        - BRANCH_NODE=v2.1.1
+        - BRANCH_NODE=v2.1.2
         - BRANCH_CLIENT=v5.0.0
         - BRANCH_SIDECAR=v2.0.0
+
+  casper-nctl-2-docker-2.2:
+    image: casper-nctl-2-docker-2.2:latest
+    container_name: casper-nctl-2-docker-2.2
+    extends:
+      service: casper-nctl-2-docker
+      file: common-service.yml
+    profiles: ['2.2']
+    build:
+      args:
+        - BRANCH_NODE=v2.2.2
+        - BRANCH_CLIENT=v5.0.1
+        - BRANCH_SIDECAR=v2.1.0
 
   casper-nctl-2-docker-dev:
     image: casper-nctl-2-docker-dev:latest

@@ -1,17 +1,18 @@
 #!/bin/bash
 
 DOCKER_REPO="gregoshop/casper-nctl"
-TAGS=("2.0" "2.1" "dev" "stable")
-IMAGE_NAME="casper-nctl-2-docker"
+TAGS=("2.0" "2.1" "2.2" "dev" "stable")
+IMAGE_PREFIX="casper-nctl-2-docker"
 
 # Loop through the TAGS array
 for TAG in "${TAGS[@]}"; do
-    # Get the latest image ID of the specified image with the tag
-    IMAGE_ID=$(docker images --format "{{.ID}}" --filter=reference="$IMAGE_NAME:$TAG" | head -n 1)
+    # Compose builds images as casper-nctl-2-docker-<profile>:latest
+    IMAGE_REF="${IMAGE_PREFIX}-${TAG}:latest"
+    IMAGE_ID=$(docker images --format "{{.ID}}" --filter=reference="$IMAGE_REF" | head -n 1)
 
     # Check if IMAGE_ID is not empty
     if [ -z "$IMAGE_ID" ]; then
-        echo "No image found with the name $IMAGE_NAME:$TAG"
+        echo "No image found with the name $IMAGE_REF"
         exit 1
     fi
 
@@ -34,4 +35,3 @@ for TAG in "${TAGS[@]}"; do
         echo "Failed to push image $DOCKER_REPO:$TAG."
     fi
 done
-
