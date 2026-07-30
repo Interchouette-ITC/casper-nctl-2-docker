@@ -1,8 +1,12 @@
 #!/bin/bash
 
-DOCKER_REPO="gregoshop/casper-nctl"
-TAGS=("2.0" "2.1" "2.2" "dev" "stable")
+DOCKER_REPOS=("gregoshop/casper-nctl" "interchouette/casper-nctl")
+TAGS=("1.5.8" "stable" "2.2" "dev")
 IMAGE_PREFIX="casper-nctl-2-docker"
+
+# Login once
+echo "Logging in to Docker Hub..."
+docker login || { echo 'Docker login failed'; exit 1; }
 
 # Loop through the TAGS array
 for TAG in "${TAGS[@]}"; do
@@ -16,22 +20,18 @@ for TAG in "${TAGS[@]}"; do
         exit 1
     fi
 
-    # Tag the image
-    echo "Tagging image $IMAGE_ID as $DOCKER_REPO:$TAG"
-    docker tag $IMAGE_ID $DOCKER_REPO:$TAG
+    for DOCKER_REPO in "${DOCKER_REPOS[@]}"; do
+        echo "Tagging image $IMAGE_ID as $DOCKER_REPO:$TAG"
+        docker tag $IMAGE_ID $DOCKER_REPO:$TAG
 
-    # Login to Docker Hub
-    echo "Logging in to Docker Hub..."
-    docker login || { echo 'Docker login failed'; exit 1; }
+        echo "Pushing $DOCKER_REPO:$TAG to Docker Hub"
+        docker push $DOCKER_REPO:$TAG
 
-    # Push the image to Docker Hub
-    echo "Pushing $DOCKER_REPO:$TAG to Docker Hub"
-    docker push $DOCKER_REPO:$TAG
-
-    # Check if push was successful
-    if [ $? -eq 0 ]; then
-        echo "Image $DOCKER_REPO:$TAG pushed successfully!"
-    else
-        echo "Failed to push image $DOCKER_REPO:$TAG."
-    fi
+        if [ $? -eq 0 ]; then
+            echo "Image $DOCKER_REPO:$TAG pushed successfully!"
+        else
+            echo "Failed to push image $DOCKER_REPO:$TAG."
+            exit 1
+        fi
+    done
 done

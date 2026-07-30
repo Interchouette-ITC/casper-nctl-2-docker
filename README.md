@@ -12,8 +12,11 @@ This repository contains Docker images and Docker Compose services that simplify
 
 ### Key Features:
 
-- **Stable Version:**
-  Uses **Casper Node v1.5.8** and **Casper Client v2.0.0** for a stable environment.
+- **1.5.8 Version:**
+  Uses **Casper Node v1.5.8** and **Casper Client v2.0.0** (legacy 1.x).
+
+- **Stable Version (default):**
+  Uses **Casper Node v2.2.2**, **Client v5.0.1**, and **Sidecar v2.1.0**.
 
 - **2.0 Version:**
   Uses **Casper Node v2.0.4**, **Client v5.0.0**, and **Sidecar v2.0.0**.
@@ -31,7 +34,7 @@ This repository contains Docker images and Docker Compose services that simplify
 
 ## Usage
 
-You can choose between `stable`, `dev`, `2.0`, `2.1`, or `2.2`.
+You can choose between `1.5.8`, `stable`, `dev`, `2.0`, `2.1`, or `2.2`.
 If no profile is specified, **`stable` is used by default**.
 
 ### Build the container
@@ -58,15 +61,25 @@ To replace `2.2` with another version, use `stable`, `dev`, `2.0`, or `2.1`.
 
 ## Available Tags & Profiles
 
-Casper NCTL 2 Docker supports five configurations:
+Casper NCTL 2 Docker supports these configurations:
 
-### Stable (default)
+### 1.5.8 (Legacy 1.x)
 
 - Uses **v1.5.8** for the node and **v2.0.0** for the client.
 
 ```yaml
 - BRANCH_NODE=v1.5.8
 - BRANCH_CLIENT=v2.0.0
+```
+
+### Stable (default)
+
+- Uses **v2.2.2** for the node, **v5.0.1** for the client, and **v2.1.0** for the sidecar.
+
+```yaml
+- BRANCH_NODE=v2.2.2
+- BRANCH_CLIENT=v5.0.1
+- BRANCH_SIDECAR=v2.1.0
 ```
 
 ### 2.0 (Specific Release)
@@ -118,7 +131,7 @@ This project provides multiple Docker Compose services:
 ### casper-nctl-2-docker (Base Service)
 
 - Provides the core infrastructure for running a Casper NCTL node.
-- Used by `stable`, `2.0`, `2.1`, `2.2`, and `dev` profiles.
+- Used by `1.5.8`, `stable`, `2.0`, `2.1`, `2.2`, and `dev` profiles.
 - **Exposes Ports:**
 
 > 11101-11105, 14101-14105, 18101-18105, 25101-25105, 28101-28105
@@ -190,14 +203,26 @@ This is the base service for running a Casper NCTL instance.
 - **Volumes:**
   - Logs, faucet, users, chainspec, and node data for persistence
 
+### casper-nctl-2-docker-1.5.8
+
+Provides the legacy 1.x environment for Casper Node and Client.
+
+- **Image:** `casper-nctl-2-docker-1.5.8:latest`
+- **Build Args:**
+  - `BRANCH_NODE=v1.5.8`
+  - `BRANCH_CLIENT=v2.0.0`
+- **Profiles:**
+  - `1.5.8`
+
 ### casper-nctl-2-docker-stable
 
 Provides the stable environment for Casper Node and Client.
 
 - **Image:** `casper-nctl-2-docker-stable:latest`
 - **Build Args:**
-  - `BRANCH_NODE=v1.5.8`
-  - `BRANCH_CLIENT=v2.0.0`
+  - `BRANCH_NODE=v2.2.2`
+  - `BRANCH_CLIENT=v5.0.1`
+  - `BRANCH_SIDECAR=v2.1.0`
 - **Profiles:**
   - `stable`
 
