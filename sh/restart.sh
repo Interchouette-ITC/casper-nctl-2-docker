@@ -1,5 +1,6 @@
 #!/bin/bash
-set -euo pipefail
+# No -u: NCTL activate references unset vars (e.g. NCTL_CASPER_HOME).
+set -eo pipefail
 set -m
 
 if [ -n "${1:-}" ] && [ -f "$1/activate" ]; then
@@ -12,6 +13,9 @@ else
     echo "Error: Activation script not found"
     exit 1
 fi
+
+# NCTL registers nctl-* as aliases; enable them in non-interactive shells.
+shopt -s expand_aliases
 
 sed -i 's/^allow_request_speculative_exec = false/allow_request_speculative_exec = true/' ./casper-node/resources/local/config.toml
 sed -i 's/262_144/450_000/g' ./casper-node/resources/local/chainspec.toml.in
