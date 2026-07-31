@@ -1,5 +1,6 @@
 #!/bin/bash
-set -euo pipefail
+# No -u: NCTL activate references unset vars (e.g. NCTL_CASPER_HOME).
+set -eo pipefail
 set -m
 
 if [ -n "${1:-}" ] && [ -f "$1/activate" ]; then
