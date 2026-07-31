@@ -7,37 +7,37 @@ PROFILE ?= $(word 2,$(MAKECMDGOALS))
 PROFILE := $(if $(PROFILE),$(PROFILE),stable)
 
 # Define the image name
-IMAGE_NAME=gregoshop/casper-nctl
+IMAGE_NAME=interchouette/casper-nctl
 
-# 🏗️ Build the Docker image for the specified profile (default is stable)
+# Build the Docker image for the specified profile (default is stable)
 build:
 	$(DEV_DC) --profile $(PROFILE) build
 
-# 🏗️ Build the Docker image without using cache (for a fresh build)
+# Build the Docker image without using cache (for a fresh build)
 build-no-cache:
 	$(DEV_DC) --profile $(PROFILE) build --no-cache
 
-# 🔄 Build the Docker image and start the container with logs
+# Build the Docker image and start the container with logs
 build-start-log: build-no-cache
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans
 
-# 🚀 Build the Docker image and start the container in detached mode
+# Build the Docker image and start the container in detached mode
 build-start: build
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
-# ▶️ Start the container in detached mode
+# Start the container in detached mode
 start:
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
-# 📝 Start the container and show logs in the terminal
+# Start the container and show logs in the terminal
 start-log:
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans
 
-# ❌ Stop the container and clean up
+# Stop the container and clean up
 stop:
 	$(DEV_DC) --profile $(PROFILE) down
 
-# 🔧 Start the Docker container based on the specified profile (e.g., stable, dev, 2.0)
+# Start the Docker container based on the specified profile (e.g. stable, 2.2, dev)
 start-docker:
 	docker run --rm -it ${IMAGE_NAME}:$(PROFILE)
 
@@ -51,7 +51,6 @@ DOCKER_PORTS = \
 
 # Common Docker volume mappings
 DOCKER_VOLUMES = \
-	-v ${PWD}/assets/logs:/app/casper-nctl/assets/net-1/nodes/node-1/logs \
 	-v ${PWD}/assets/faucet:/app/casper-nctl/assets/net-1/faucet \
 	-v ${PWD}/assets/users:/app/casper-nctl/assets/net-1/users \
 	-v ${PWD}/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec \

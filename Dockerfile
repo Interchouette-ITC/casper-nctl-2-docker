@@ -1,7 +1,7 @@
 FROM python:slim-bookworm AS build
 
-ARG BRANCH_NODE=release-1.5.8
-ARG BRANCH_CLIENT=release-2.0.0
+ARG BRANCH_NODE=v1.5.8
+ARG BRANCH_CLIENT=v2.0.0
 ARG BRANCH_SIDECAR
 
 RUN apt-get update \
@@ -24,7 +24,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 ENV PATH="$PATH:/root/.cargo/bin"
 
-SHELL ["/bin/bash", "--login", "-c"]
+SHELL ["/bin/bash", "-c"]
 
 WORKDIR /app
 
@@ -74,8 +74,6 @@ RUN if [ -n "$BRANCH_SIDECAR" ]; then \
   ./compile.sh "/app/casper-node/utils/nctl" >> compile_output.txt; \
   fi
 
-# CMD ["/bin/bash", "-ci", "cat compile_output.txt"]
-
 FROM python:slim-bookworm AS run
 
 ARG BRANCH_SIDECAR
@@ -112,9 +110,9 @@ RUN if [ -z "$BRANCH_SIDECAR" ]; then \
 
 CMD ["/bin/bash", "-c", "\
   if [ -n \"$BRANCH_SIDECAR\" ]; then \
-  /bin/bash -ci \"/app/restart.sh\"; \
+  exec /app/restart.sh; \
   else \
-  /bin/bash -ci \"/app/restart.sh /app/casper-node/utils/nctl\"; \
+  exec /app/restart.sh /app/casper-node/utils/nctl; \
   fi"]
 
 EXPOSE 11101-11105 14101-14105 18101-18105 25101-25105 28101-28105

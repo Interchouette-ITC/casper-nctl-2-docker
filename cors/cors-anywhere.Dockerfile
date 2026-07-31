@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:22-bookworm-slim
 
 ENV NODE_ENV=production
 ENV NODE_PATH=/usr/local/lib/node_modules

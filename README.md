@@ -1,292 +1,68 @@
-## Casper NCTL 2 Docker
+# Casper NCTL 2 Docker
 
-**Casper NCTL 2 Docker** provides containerized environments for running **Casper NCTL** (Node Control Tool) versions 1.x and 2.x. This setup supports different branches and configurations for stable, development, and version-specific releases of Casper Node and Client.
+Containerized [Casper NCTL](https://docs.casper.network/) (Node Control Tool) for local testnets. Optional CORS proxy for browser apps talking to NCTL RPC.
 
----
+Images:
 
-### What is this repository for?
+- Docker Hub: [`interchouette/casper-nctl`](https://hub.docker.com/r/interchouette/casper-nctl)
+- Docker Hub (legacy): [`gregoshop/casper-nctl`](https://hub.docker.com/r/gregoshop/casper-nctl)
+- GHCR: `ghcr.io/interchouette-itc/casper-nctl`
 
-This repository contains Docker images and Docker Compose services that simplify the process of running the **Casper network's NCTL** (Node Control Tool). NCTL is a tool used for managing **Casper testnets**. The images are configured to work with different branches and versions, including stable, development, and version-specific releases.
+```bash
+docker pull interchouette/casper-nctl:stable
+docker run --rm -it interchouette/casper-nctl:2.2
+```
 
----
+NCTL assets under `./assets` are **testnet-only** (including keys).
 
-### Key Features:
+## Profiles
 
-- **1.5.8 Version:**
-  Uses **Casper Node v1.5.8** and **Casper Client v2.0.0** (legacy 1.x).
+Default profile is **`stable`**.
 
-- **Stable Version (default):**
-  Uses **Casper Node v2.2.2**, **Client v5.0.1**, and **Sidecar v2.1.0**.
+| Profile          | Node   | Client | Sidecar |
+| ---------------- | ------ | ------ | ------- |
+| `1.5.8`          | v1.5.8 | v2.0.0 | —       |
+| `stable` / `2.2` | v2.2.2 | v5.0.1 | v2.1.0  |
+| `2.0`            | v2.0.4 | v5.0.0 | v2.0.0  |
+| `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  |
+| `dev`            | dev    | dev    | dev     |
 
-- **2.0 Version:**
-  Uses **Casper Node v2.0.4**, **Client v5.0.0**, and **Sidecar v2.0.0**.
-
-- **2.1 Version:**
-  Uses **Casper Node v2.1.2**, **Client v5.0.0**, and **Sidecar v2.0.0**.
-
-- **2.2 Version:**
-  Uses **Casper Node v2.2.2**, **Client v5.0.1**, and **Sidecar v2.1.0**.
-
-- **Development Version:**
-  Tracks the latest development versions of **Casper Node, Client**, and **Sidecar**.
-
----
+Published tags: `1.5.8`, `stable`, `2.2`, `dev`.
 
 ## Usage
 
-You can choose between `1.5.8`, `stable`, `dev`, `2.0`, `2.1`, or `2.2`.
-If no profile is specified, **`stable` is used by default**.
-
-### Build the container
-
 ```sh
 make build 2.2
-```
-
-### Start the container & Log
-
-```sh
 make start-log 2.2
-```
-
-### Build & Start & Log in one step
-
-```sh
 make build-start-log 2.2
+make stop 2.2
 ```
 
-To replace `2.2` with another version, use `stable`, `dev`, `2.0`, or `2.1`.
-
----
-
-## Available Tags & Profiles
-
-Casper NCTL 2 Docker supports these configurations:
-
-### 1.5.8 (Legacy 1.x)
-
-- Uses **v1.5.8** for the node and **v2.0.0** for the client.
-
-```yaml
-- BRANCH_NODE=v1.5.8
-- BRANCH_CLIENT=v2.0.0
-```
-
-### Stable (default)
-
-- Uses **v2.2.2** for the node, **v5.0.1** for the client, and **v2.1.0** for the sidecar.
-
-```yaml
-- BRANCH_NODE=v2.2.2
-- BRANCH_CLIENT=v5.0.1
-- BRANCH_SIDECAR=v2.1.0
-```
-
-### 2.0 (Specific Release)
-
-- Uses **v2.0.4** for the node, **v5.0.0** for the client, and **v2.0.0** for the sidecar.
-
-```yaml
-- BRANCH_NODE=v2.0.4
-- BRANCH_CLIENT=v5.0.0
-- BRANCH_SIDECAR=v2.0.0
-```
-
-### 2.1 (Specific Release)
-
-- Uses **v2.1.2** for the node, **v5.0.0** for the client, and **v2.0.0** for the sidecar.
-
-```yaml
-- BRANCH_NODE=v2.1.2
-- BRANCH_CLIENT=v5.0.0
-- BRANCH_SIDECAR=v2.0.0
-```
-
-### 2.2 (Specific Release)
-
-- Uses **v2.2.2** for the node, **v5.0.1** for the client, and **v2.1.0** for the sidecar.
-
-```yaml
-- BRANCH_NODE=v2.2.2
-- BRANCH_CLIENT=v5.0.1
-- BRANCH_SIDECAR=v2.1.0
-```
-
-### Dev (Latest Development Builds)
-
-- Tracks the latest development versions of **node, client, and sidecar**.
-
-```yaml
-- BRANCH_NODE=dev
-- BRANCH_CLIENT=dev
-- BRANCH_SIDECAR=dev
-```
-
----
-
-## Services Overview
-
-This project provides multiple Docker Compose services:
-
-### casper-nctl-2-docker (Base Service)
-
-- Provides the core infrastructure for running a Casper NCTL node.
-- Used by `1.5.8`, `stable`, `2.0`, `2.1`, `2.2`, and `dev` profiles.
-- **Exposes Ports:**
-
-> 11101-11105, 14101-14105, 18101-18105, 25101-25105, 28101-28105
-
-- **Maps Volumes for Persistence:**
-- Logs
-- Faucet
-- Users
-- Chainspec
-- Node Data
-
-### CORS Proxy (Optional)
-
-- Runs a CORS proxy on **port 11100**.
-- Required for front-end applications making cross-origin requests.
-- To enable, use the `cors-anywhere` profile.
-
----
-
-## Running the Containers
-
-### Building a Specific Version
+Replace `2.2` with `stable`, `dev`, `1.5.8`, `2.0`, or `2.1` as needed.
 
 ```sh
-make build 2.2
+make build-no-cache stable
+make start stable
+make build-start stable
 ```
 
-or build without cache:
+## Ports
 
-```sh
-make build-no-cache 2.2
-```
+`11101-11105`, `14101-14105`, `18101-18105`, `25101-25105`, `28101-28105`
 
-### Starting a Specific Version
+## Volumes
 
-```sh
-make start dev
-```
+Host `./assets` maps to NCTL faucet, users, chainspec, and nodes (including node logs under `assets/nodes`).
 
-### Building & Starting a Specific Version
+## CORS proxy
 
-```sh
-make build-start dev
-```
-
-### View Logs
-
-```sh
-make start-log dev
-```
-
-### Stopping the Container
-
-```sh
-make stop dev
-```
-
----
-
-## Docker-Compose Services
-
-### casper-nctl-2-docker
-
-This is the base service for running a Casper NCTL instance.
-
-- **Image:** `casper-nctl-2-docker:latest`
-- **Ports:**
-  - 11101-11105, 14101-14105, 18101-18105, 25101-25105, 28101-28105
-- **Volumes:**
-  - Logs, faucet, users, chainspec, and node data for persistence
-
-### casper-nctl-2-docker-1.5.8
-
-Provides the legacy 1.x environment for Casper Node and Client.
-
-- **Image:** `casper-nctl-2-docker-1.5.8:latest`
-- **Build Args:**
-  - `BRANCH_NODE=v1.5.8`
-  - `BRANCH_CLIENT=v2.0.0`
-- **Profiles:**
-  - `1.5.8`
-
-### casper-nctl-2-docker-stable
-
-Provides the stable environment for Casper Node and Client.
-
-- **Image:** `casper-nctl-2-docker-stable:latest`
-- **Build Args:**
-  - `BRANCH_NODE=v2.2.2`
-  - `BRANCH_CLIENT=v5.0.1`
-  - `BRANCH_SIDECAR=v2.1.0`
-- **Profiles:**
-  - `stable`
-
-### casper-nctl-2-docker-2.0
-
-Provides the 2.0 environment for Casper Node and Client.
-
-- **Image:** `casper-nctl-2-docker-2.0:latest`
-- **Build Args:**
-  - `BRANCH_NODE=v2.0.4`
-  - `BRANCH_CLIENT=v5.0.0`
-  - `BRANCH_SIDECAR=v2.0.0`
-- **Profiles:**
-  - `2.0`
-
-### casper-nctl-2-docker-2.1
-
-Provides the 2.1 environment for Casper Node and Client.
-
-- **Image:** `casper-nctl-2-docker-2.1:latest`
-- **Build Args:**
-  - `BRANCH_NODE=v2.1.2`
-  - `BRANCH_CLIENT=v5.0.0`
-  - `BRANCH_SIDECAR=v2.0.0`
-- **Profiles:**
-  - `2.1`
-
-### casper-nctl-2-docker-2.2
-
-Provides the 2.2 environment for Casper Node and Client.
-
-- **Image:** `casper-nctl-2-docker-2.2:latest`
-- **Build Args:**
-  - `BRANCH_NODE=v2.2.2`
-  - `BRANCH_CLIENT=v5.0.1`
-  - `BRANCH_SIDECAR=v2.1.0`
-- **Profiles:**
-  - `2.2`
-
-### casper-nctl-2-docker-dev
-
-Tracks the latest development versions of the node, client, and sidecar.
-
-- **Image:** `casper-nctl-2-docker-dev:latest`
-- **Build Args:**
-  - `BRANCH_NODE=dev`
-  - `BRANCH_CLIENT=dev`
-  - `BRANCH_SIDECAR=dev`
-- **Profiles:**
-  - `dev`
-
-### cors-anywhere
-
-Runs a CORS proxy on **port 11100**.
-
-- **Image:** Custom build using `cors-anywhere.Dockerfile`
-- **Environment Variables:**
-  - `PORT=11100`
-- **Ports:**
-  - `11100:11100`
-
-If you want to spin up everything at once (nodes 2.2 + CORS proxy):
+Browser apps that call NCTL RPC can use the `cors-anywhere` profile on port **11100**:
 
 ```sh
 docker compose --profile 2.2 up -d
 docker compose --profile cors-anywhere up -d
 ```
+
+## License
+
+[Apache-2.0](LICENSE). Copyright Interchouette.

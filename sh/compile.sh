@@ -1,12 +1,11 @@
-#!/bin/bash -i
-set -m
+#!/bin/bash
+set -euo pipefail
 
-# Check if an argument is provided
-if [ -n "$1" ]; then
-    # Use the provided path as the activation script
-    source $1/activate
+if [ -n "${1:-}" ]; then
+    # shellcheck source=/dev/null
+    source "$1/activate"
 else
-    # Use the default path as the activation script
+    # shellcheck source=/dev/null
     source /app/casper-nctl/activate
 fi
 

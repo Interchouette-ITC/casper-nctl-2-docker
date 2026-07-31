@@ -1,7 +1,5 @@
 #!/bin/bash
-set -m
+set -euo pipefail
 
-# Activate virtual environment and install required packages
-python3 -m venv $VIRTUAL_ENV
-# pip install --upgrade pip
+python3 -m venv "${VIRTUAL_ENV}"
 pip install supervisor toml tomlkit
