@@ -14,6 +14,9 @@ else
     exit 1
 fi
 
+# NCTL registers nctl-* as aliases; enable them in non-interactive shells.
+shopt -s expand_aliases
+
 sed -i 's/^allow_request_speculative_exec = false/allow_request_speculative_exec = true/' ./casper-node/resources/local/config.toml
 sed -i 's/262_144/450_000/g' ./casper-node/resources/local/chainspec.toml.in
 sed -i 's/^qps_limit = 110/qps_limit = 220/' ./casper-node/resources/local/config.toml

@@ -10,5 +10,8 @@ else
     source /app/casper-nctl/activate
 fi
 
+# NCTL registers nctl-* as aliases; enable them in non-interactive shells.
+shopt -s expand_aliases
+
 nctl-compile
 echo "nctl-compile complete."
