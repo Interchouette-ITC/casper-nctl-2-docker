@@ -5,8 +5,8 @@ services:
     build:
       dockerfile: ./Dockerfile
       args:
-        BRANCH_NODE: release-1.5.8
-        BRANCH_CLIENT: release-2.0.0
+        BRANCH_NODE: v1.5.8
+        BRANCH_CLIENT: v2.0.0
     ports:
       - 11101-11105:11101-11105
       - 14101-14105:14101-14105
@@ -14,7 +14,6 @@ services:
       - 25101-25105:25101-25105
       - 28101-28105:28101-28105
     volumes:
-      - $PWD/assets/logs/:/app/casper-nctl/assets/net-1/nodes/node-1/logs/
       - $PWD/assets/faucet:/app/casper-nctl/assets/net-1/faucet/
       - $PWD/assets/users:/app/casper-nctl/assets/net-1/users/
       - $PWD/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec/

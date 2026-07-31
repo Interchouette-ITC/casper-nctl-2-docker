@@ -1,0 +1,10 @@
+# Local NCTL runtime (keys, binaries, storage, logs)
+assets/**
+!assets/.gitkeep
+
+*.log
+.env
+.env.*
+
+# Personal local helper (not part of the published repo)
+push_to_docker.sh
