@@ -61,6 +61,12 @@ RUN if [ -n "$BRANCH_SIDECAR" ]; then \
   ln -s casper-node/utils/nctl casper-nctl ; \
   fi
 
+# Older casper-node tags install unpinned cargo-audit; latest needs rustc >= 1.88 while
+# those tags pin older toolchains (e.g. 1.85). 2.2+ already pins CARGO_AUDIT_VERSION.
+RUN if grep -qE '\$\(CARGO\) install cargo-audit$' casper-node/Makefile; then \
+  sed -i 's/$(CARGO) install cargo-audit$/$(CARGO) install cargo-audit --version 0.22.1/' casper-node/Makefile; \
+  fi
+
 COPY sh/*.sh .
 RUN chmod +x ./*.sh
 

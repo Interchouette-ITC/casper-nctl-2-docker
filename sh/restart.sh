@@ -1,6 +1,7 @@
 #!/bin/bash
-# No -u: NCTL activate references unset vars (e.g. NCTL_CASPER_HOME).
-set -eo pipefail
+# NCTL activate uses unset optionals; nctl-* are aliases. Do not use set -e/u here:
+# bind-mounted assets make teardown `rm` fail ("Device or resource busy"), and set -e
+# aborts setup mid-source (pop_var_context).
 set -m
 
 if [ -n "${1:-}" ] && [ -f "$1/activate" ]; then
@@ -14,7 +15,6 @@ else
     exit 1
 fi
 
-# NCTL registers nctl-* as aliases; enable them in non-interactive shells.
 shopt -s expand_aliases
 
 sed -i 's/^allow_request_speculative_exec = false/allow_request_speculative_exec = true/' ./casper-node/resources/local/config.toml

@@ -5,15 +5,23 @@ on:
     branches:
       - dev
 
+# Match published profiles (parallel). Push-to-registry stays on push-to-dev workflows only.
 jobs:
+  build-2-1:
+    name: Build Docker image 2.1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build 2.1 image
+        run: make build 2.1
+
   build-2-2:
     name: Build Docker image 2.2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: docker/setup-buildx-action@v3
-
       - name: Build 2.2 image
         run: make build 2.2
 
@@ -22,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: docker/setup-buildx-action@v3
-
       - name: Build cors-anywhere
         run: docker compose --profile cors-anywhere build
