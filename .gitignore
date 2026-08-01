@@ -8,3 +8,6 @@ assets/**
 
 # Personal local helper (not part of the published repo)
 push_to_docker.sh
+
+# Interchouette worker token (symlink; never commit)
+.github_credentials
