@@ -11,3 +11,4 @@ push_to_docker.sh
 
 # Interchouette worker token (symlink; never commit)
 .github_credentials
+.cursor
