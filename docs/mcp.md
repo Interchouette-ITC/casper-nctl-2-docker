@@ -44,7 +44,7 @@ casper-nctl-2-docker-mcp --http                  # 0.0.0.0:8788
 casper-nctl-2-docker-mcp --http --listen 127.0.0.1:8788
 ```
 
-Example Cursor config: [`mcp/mcp.json.example`](../mcp/mcp.json.example).
+Example Cursor config: repository file `mcp/mcp.json.example`.
 
 Plain `make start` remains **NCTL only**.
 
