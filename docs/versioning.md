@@ -5,7 +5,7 @@
 | NCTL testnet | `stable`, `2.2`, `latest` (same image); also `2.1`, `dev`, … | `interchouette/casper-nctl-2-docker` |
 | MCP sidecar | `2.2` + `latest` (release); `dev` (tip) | `interchouette/casper-nctl-2-docker-mcp` |
 
-NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP crate version in `mcp/Cargo.toml` tracks the active line (e.g. `2.2.0` for image `:2.2`).
+NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP **image** tags (`:2.2`, `:latest`, `:dev`) are the publish line; the MCP **crate** version in `mcp/Cargo.toml` is independent semver (currently `0.2.2`).
 
 When changing MCP tools or transport:
 
