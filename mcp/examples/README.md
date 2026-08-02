@@ -1,8 +1,6 @@
 # MCP examples (developers / CI)
 
-These binaries call the **same Rust helpers** the MCP server uses (`ops`, `assets`, `logs`). They are for **local smoke and CI**, not a substitute for Cursor MCP.
-
-**Cursor agents** must use `CallMcpTool` on the `casper-nctl-2-docker` MCP server — see `.cursor/rules/nctl-use-mcp.mdc` (itc-cursor).
+These binaries call the **same Rust helpers** the MCP server uses (`ops`, `assets`, `logs`). They are for **local smoke and CI**.
 
 ```bash
 export NCTL_DOCKER_ROOT=/path/to/casper-nctl-2-docker
