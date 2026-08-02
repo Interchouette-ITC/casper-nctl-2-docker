@@ -40,8 +40,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     needs: build
     runs-on: ubuntu-latest
-    # Succeeds only after Settings → Pages → Source = GitHub Actions.
-    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

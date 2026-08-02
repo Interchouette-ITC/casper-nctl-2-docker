@@ -1,7 +1,7 @@
 site_name: Casper NCTL 2 Docker
 site_description: Local Casper testnet in Docker (casper-nctl-2-docker) with optional Rust MCP
-site_url: https://groussac.github.io/casper-nctl-2-docker/
-repo_url: https://github.com/gRoussac/casper-nctl-2-docker
+site_url: https://interchouette-itc.github.io/casper-nctl-2-docker/
+repo_url: https://github.com/Interchouette-ITC/casper-nctl-2-docker
 edit_uri: edit/dev/docs/
 
 theme:
