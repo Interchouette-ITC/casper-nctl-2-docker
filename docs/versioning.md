@@ -3,7 +3,7 @@
 | What | Tags | Registry |
 | --- | --- | --- |
 | NCTL testnet | `stable`, `2.2`, `2.1`, `dev`, … | `interchouette/casper-nctl-2-docker` |
-| MCP sidecar | same line (`2.2`, `stable`, `latest`, `dev`) | `interchouette/casper-nctl-2-docker-mcp` |
+| MCP sidecar | `2.2` + `latest` (release); `dev` (tip) | `interchouette/casper-nctl-2-docker-mcp` |
 
 NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP crate version in `mcp/Cargo.toml` tracks the active line (e.g. `2.2.0` for image `:2.2`).
 

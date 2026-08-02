@@ -8,7 +8,7 @@ Image tags (`stable`, `2.2`, `dev`, â€¦) are shared by the NCTL and MCP images â
 
 ### Added
 
-- MCP sidecar image `interchouette/casper-nctl-2-docker-mcp` (`:2.2`, `:stable`, `:latest`, `:dev`): stdio + Streamable HTTP on port **8788** (`/mcp`).
+- MCP sidecar image `interchouette/casper-nctl-2-docker-mcp` (`:2.2`, `:latest`, `:dev`): stdio + Streamable HTTP on port **8788** (`/mcp`).
 - Make targets: `start-all`, `stop-all`, `mcp-http`, `mcp-http-stop`, `run-mcp`, `run-mcp-http`, MCP image build/push helpers.
 - MCP tools for compose/Hub lifecycle, faucet/assets inspection, and log tail/grep (secrets never returned).
 - Docs (`docs/`, MkDocs) and Hub rename to `casper-nctl-2-docker`.

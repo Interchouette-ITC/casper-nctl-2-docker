@@ -2,7 +2,7 @@
 
 Rust MCP server for this product: **stdio** or **Streamable HTTP** on port **8788**.
 
-Published image: [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) (`:2.2`, `:stable`, `:latest`, `:dev`).
+Published image: [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) (`:2.2`, `:latest`, `:dev`).
 
 ## Run without compiling
 

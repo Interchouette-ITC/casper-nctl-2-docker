@@ -9,7 +9,7 @@ PROFILE := $(if $(PROFILE),$(PROFILE),stable)
 # NCTL image
 IMAGE_NAME=interchouette/casper-nctl-2-docker
 
-# MCP sidecar image (tags follow NCTL profile line: 2.2 / stable / latest / dev)
+# MCP sidecar image (release line: 2.2 + latest; tip: :dev)
 MCP_NAME=casper-nctl-2-docker-mcp
 MCP_HUB=interchouette/casper-nctl-2-docker-mcp
 MCP_GHCR_PERSONAL=ghcr.io/groussac/casper-nctl-2-docker-mcp
@@ -52,8 +52,8 @@ stop-all: stop mcp-http-stop
 # --- MCP sidecar ---
 
 mcp-build:
-	docker build -t $(MCP_NAME):$(MCP_TAG) -t $(MCP_NAME):stable -t $(MCP_NAME):latest \
-		-t $(MCP_HUB):$(MCP_TAG) -t $(MCP_HUB):stable -t $(MCP_HUB):latest \
+	docker build -t $(MCP_NAME):$(MCP_TAG) -t $(MCP_NAME):latest \
+		-t $(MCP_HUB):$(MCP_TAG) -t $(MCP_HUB):latest \
 		-f mcp/Dockerfile mcp
 
 mcp-build-dev:
@@ -79,23 +79,18 @@ run-mcp-http:
 
 mcp-docker-push-hub:
 	docker push $(MCP_HUB):$(MCP_TAG)
-	docker push $(MCP_HUB):stable
 	docker push $(MCP_HUB):latest
 
 mcp-docker-push-ghcr-personal:
 	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_PERSONAL):$(MCP_TAG)
-	docker tag $(MCP_HUB):stable $(MCP_GHCR_PERSONAL):stable
 	docker tag $(MCP_HUB):latest $(MCP_GHCR_PERSONAL):latest
 	docker push $(MCP_GHCR_PERSONAL):$(MCP_TAG)
-	docker push $(MCP_GHCR_PERSONAL):stable
 	docker push $(MCP_GHCR_PERSONAL):latest
 
 mcp-docker-push-ghcr-itc:
 	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_ORG):$(MCP_TAG)
-	docker tag $(MCP_HUB):stable $(MCP_GHCR_ORG):stable
 	docker tag $(MCP_HUB):latest $(MCP_GHCR_ORG):latest
 	docker push $(MCP_GHCR_ORG):$(MCP_TAG)
-	docker push $(MCP_GHCR_ORG):stable
 	docker push $(MCP_GHCR_ORG):latest
 
 mcp-docker-push-dev-hub:
