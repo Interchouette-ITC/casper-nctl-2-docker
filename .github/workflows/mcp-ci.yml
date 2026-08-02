@@ -5,13 +5,11 @@ on:
     paths:
       - "mcp/**"
       - ".github/workflows/mcp-ci.yml"
-      - "!mcp/**/*.md"
   push:
     branches: [dev]
     paths:
       - "mcp/**"
       - ".github/workflows/mcp-ci.yml"
-      - "!mcp/**/*.md"
 
 jobs:
   test:
