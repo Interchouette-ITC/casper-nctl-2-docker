@@ -9,7 +9,6 @@ on:
       - "**/*.mdc"
       - "docs/**"
       - "mkdocs.yml"
-      - "agent-rules/**"
       - "LICENSE"
 
 # Match published profiles (parallel). Push-to-registry stays on push-to-dev workflows only.

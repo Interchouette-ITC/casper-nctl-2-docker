@@ -24,6 +24,6 @@ Bump MCP when tools or transport behavior change:
 1. `mcp/Cargo.toml` `version`
 2. `#[mcp_server(version = "…")]` in `mcp/src/server.rs` (must match)
 3. Compose / CI image tags (`casper-nctl-2-docker-mcp:<version>` and `:latest`)
-4. Root [`CHANGELOG.md`](../CHANGELOG.md)
+4. Repository root `CHANGELOG.md` (not part of the MkDocs site tree)
 
 See [MCP for agents](mcp.md).
