@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - dev
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.mdc"
+      - "docs/**"
+      - "mkdocs.yml"
+      - "LICENSE"
+      - "CHANGELOG.md"
 
 jobs:
   nightly-build-push-2-2:

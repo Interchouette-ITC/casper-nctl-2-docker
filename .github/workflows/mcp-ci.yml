@@ -3,12 +3,22 @@ name: MCP package (Rust)
 on:
   pull_request:
     paths:
-      - "mcp/**"
+      - "mcp/src/**"
+      - "mcp/tests/**"
+      - "mcp/examples/**/*.rs"
+      - "mcp/Cargo.toml"
+      - "mcp/Cargo.lock"
+      - "mcp/Dockerfile"
       - ".github/workflows/mcp-ci.yml"
   push:
     branches: [dev]
     paths:
-      - "mcp/**"
+      - "mcp/src/**"
+      - "mcp/tests/**"
+      - "mcp/examples/**/*.rs"
+      - "mcp/Cargo.toml"
+      - "mcp/Cargo.lock"
+      - "mcp/Dockerfile"
       - ".github/workflows/mcp-ci.yml"
 
 jobs:

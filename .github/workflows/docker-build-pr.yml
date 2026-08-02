@@ -10,6 +10,7 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "LICENSE"
+      - "CHANGELOG.md"
 
 # Match published profiles (parallel). Push-to-registry stays on push-to-dev workflows only.
 jobs:

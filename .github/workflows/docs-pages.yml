@@ -1,11 +1,7 @@
 name: Docs (MkDocs)
 
+# Build/deploy the site on docs changes only (push to dev). No PR CI for markdown-only edits.
 on:
-  pull_request:
-    paths:
-      - "docs/**"
-      - "mkdocs.yml"
-      - ".github/workflows/docs-pages.yml"
   push:
     branches: [dev]
     paths:
