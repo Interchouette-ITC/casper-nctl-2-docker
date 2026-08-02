@@ -9,4 +9,8 @@ assets/**
 # Personal local helper (not part of the published repo)
 push_to_docker.sh
 .github_credentials
-.cursor
+# Local Cursor config (mcp.json, etc.); keep shared agent rules tracked
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+.cursor/rules/.gitkeep
