@@ -6,7 +6,7 @@ on:
       - dev
 
 # Always run so branch-protection required checks report a status.
-# Heavy builds only when non-docs paths change (same ignore set as before).
+# Heavy builds only when image-relevant paths change (skip docs / Actions config).
 jobs:
   detect:
     name: Detect Docker-relevant changes
@@ -28,7 +28,8 @@ jobs:
             case "$f" in
               *.md|*.mdc|mkdocs.yml|LICENSE|CHANGELOG.md) continue ;;
             esac
-            if [[ "$f" == docs/* ]]; then
+            # Docs tree and Actions config do not change image contents.
+            if [[ "$f" == docs/* || "$f" == .github/* ]]; then
               continue
             fi
             relevant=true
