@@ -4,7 +4,7 @@ Local Casper testnet in Docker via [NCTL](https://docs.casper.network/) (Node Co
 
 **Product name:** `casper-nctl-2-docker` (not `casper-nctl`). NCTL images use profile tags (`2.2`, `stable`, …); the MCP sidecar is versioned separately as **`2.2.2`** — see [docs/versioning.md](docs/versioning.md) and [CHANGELOG.md](CHANGELOG.md).
 
-Agents: use Cursor `CallMcpTool` ([`agent-rules/nctl-use-mcp.mdc`](agent-rules/nctl-use-mcp.mdc)); copy into `.cursor/rules/`.
+Agents: use Cursor `CallMcpTool` (rule lives in **itc-cursor** as `.cursor/rules/nctl-use-mcp.mdc`).
 
 Images:
 

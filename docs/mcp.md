@@ -4,7 +4,7 @@ Rust binary `casper-nctl-2-docker-mcp` **v2.2.2** (mcpkit), tvscreener-style dua
 
 **Version:** MCP sidecar semver is **`2.2.2`** (smiles at node pin `v2.2.2` / profile `2.2`; not locked to it). See [Versioning](versioning.md) and the root `CHANGELOG.md`.
 
-Cursor agents in this repo must use Cursor `CallMcpTool` (see [`agent-rules/nctl-use-mcp.mdc`](../agent-rules/nctl-use-mcp.mdc) (copy into `.cursor/rules/`)), not Shell/`make`/file reads as a substitute.
+Cursor agents in this repo must use Cursor `CallMcpTool` (see `.cursor/rules/nctl-use-mcp.mdc` (itc-cursor) from itc-cursor)), not Shell/`make`/file reads as a substitute.
 
 | Mode | How | Cursor |
 | --- | --- | --- |

@@ -21,4 +21,4 @@ cargo test --all-targets
 cargo build --examples
 ```
 
-Examples call the same helpers as the MCP tools (`ops` / `assets` / `logs`) for humans and CI. See [examples/README.md](examples/README.md). Cursor agents must still use `CallMcpTool` (see `.cursor/rules/nctl-use-mcp.mdc`).
+Examples call the same helpers as the MCP tools (`ops` / `assets` / `logs`) for humans and CI. See [examples/README.md](examples/README.md). Cursor agents must still use `CallMcpTool` (see `.cursor/rules/nctl-use-mcp.mdc` (itc-cursor)).
