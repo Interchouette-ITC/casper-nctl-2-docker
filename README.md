@@ -15,7 +15,7 @@ docker run --rm -it interchouette/casper-nctl:2.2
 
 NCTL assets under `./assets` are **testnet-only** (including keys).
 
-Agents controlling NCTL via MCP must use Cursor `CallMcpTool` (see `.cursor/rules/nctl-use-mcp.mdc`), not Shell/make/file reads as a substitute.
+Agents controlling NCTL via MCP must use Cursor `CallMcpTool` (see [`agent-rules/nctl-use-mcp.mdc`](agent-rules/nctl-use-mcp.mdc)); copy into `.cursor/rules/` for Cursor.
 
 ## Profiles
 
