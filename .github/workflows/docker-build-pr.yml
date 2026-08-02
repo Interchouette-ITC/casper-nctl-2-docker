@@ -4,39 +4,83 @@ on:
   pull_request:
     branches:
       - dev
-    paths-ignore:
-      - "**/*.md"
-      - "**/*.mdc"
-      - "docs/**"
-      - "mkdocs.yml"
-      - "LICENSE"
-      - "CHANGELOG.md"
 
-# Match published profiles (parallel). Push-to-registry stays on push-to-dev workflows only.
+# Always run so branch-protection required checks report a status.
+# Heavy builds only when non-docs paths change (same ignore set as before).
 jobs:
-  build-2-1:
-    name: Build Docker image 2.1
+  detect:
+    name: Detect Docker-relevant changes
     runs-on: ubuntu-latest
+    outputs:
+      docker: ${{ steps.filter.outputs.docker }}
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+        with:
+          fetch-depth: 0
+      - id: filter
+        name: Classify changed paths
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          relevant=false
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              *.md|*.mdc|mkdocs.yml|LICENSE|CHANGELOG.md) continue ;;
+            esac
+            if [[ "$f" == docs/* ]]; then
+              continue
+            fi
+            relevant=true
+            break
+          done < <(git diff --name-only "$BASE"...HEAD)
+          echo "docker=${relevant}" >> "$GITHUB_OUTPUT"
+          echo "docker-relevant=${relevant}"
+
+  build-2-1:
+    name: Build Docker image 2.1
+    needs: detect
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip (docs-only)
+        if: needs.detect.outputs.docker != 'true'
+        run: echo "No Docker-relevant changes; required check reported as success."
+      - if: needs.detect.outputs.docker == 'true'
+        uses: actions/checkout@v4
+      - if: needs.detect.outputs.docker == 'true'
+        uses: docker/setup-buildx-action@v3
       - name: Build 2.1 image
+        if: needs.detect.outputs.docker == 'true'
         run: make build 2.1
 
   build-2-2:
     name: Build Docker image 2.2
+    needs: detect
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+      - name: Skip (docs-only)
+        if: needs.detect.outputs.docker != 'true'
+        run: echo "No Docker-relevant changes; required check reported as success."
+      - if: needs.detect.outputs.docker == 'true'
+        uses: actions/checkout@v4
+      - if: needs.detect.outputs.docker == 'true'
+        uses: docker/setup-buildx-action@v3
       - name: Build 2.2 image
+        if: needs.detect.outputs.docker == 'true'
         run: make build 2.2
 
   build-cors:
     name: Build CORS image
+    needs: detect
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+      - name: Skip (docs-only)
+        if: needs.detect.outputs.docker != 'true'
+        run: echo "No Docker-relevant changes; required check reported as success."
+      - if: needs.detect.outputs.docker == 'true'
+        uses: actions/checkout@v4
+      - if: needs.detect.outputs.docker == 'true'
+        uses: docker/setup-buildx-action@v3
       - name: Build cors-anywhere
+        if: needs.detect.outputs.docker == 'true'
         run: docker compose --profile cors-anywhere build
