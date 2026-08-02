@@ -1,39 +1,45 @@
 # Casper NCTL 2 Docker
 
-Local Casper testnet in Docker via [NCTL](https://docs.casper.network/) (Node Control Tool). Optional CORS proxy and optional Rust MCP sidecar.
+Local multi-node [Casper](https://docs.casper.network/) testnet in Docker ([NCTL](https://docs.casper.network/)), plus a Rust **MCP** server so tools and agents can start/stop the network, read faucet/user/node keys, and inspect logs.
 
-Images:
+Images: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker) · `ghcr.io/interchouette-itc/casper-nctl-2-docker`
 
-- Docker Hub: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker)
-- GHCR: `ghcr.io/interchouette-itc/casper-nctl-2-docker`
-- Legacy Hub name (deprecated): `interchouette/casper-nctl` / `gregoshop/casper-nctl`
+Assets under `./assets` are **testnet-only**. Do not use them on mainnet.
 
-NCTL assets under `./assets` are **testnet-only** (including keys). Never use them on mainnet.
+## MCP
 
-## Quick start (image only)
+Control and debug the local testnet over MCP (stdio or Streamable HTTP on port **8788**).
+
+```sh
+make start-all 2.2      # NCTL + MCP at http://127.0.0.1:8788/mcp
+make stop-all 2.2
+make run-mcp            # stdio on the host
+make run-mcp-http       # HTTP on 127.0.0.1:8788 without Docker
+make mcp-http           # MCP container only
+```
+
+Cursor config examples: [`mcp/mcp.json.example`](mcp/mcp.json.example). Tool list and details: [`docs/mcp.md`](docs/mcp.md).
+
+`make start` still starts **NCTL only**. Use `start-all` (or `mcp-http` / `run-mcp*`) when you want MCP.
+
+## Quick start (image)
 
 ```bash
 docker pull interchouette/casper-nctl-2-docker:stable
 docker run --rm -it interchouette/casper-nctl-2-docker:2.2
 ```
 
-## Quick start (clone + Make)
+## Quick start (clone)
 
 ```sh
-make start 2.2          # NCTL only (unchanged)
-make start-all 2.2      # NCTL + MCP HTTP on :8788
+make start 2.2          # NCTL only
+make start-all 2.2      # NCTL + MCP
 make stop-all 2.2
 ```
 
-After `start-all`, point Cursor at `http://127.0.0.1:8788/mcp` (see [docs/mcp.md](docs/mcp.md) and [mcp/mcp.json.example](mcp/mcp.json.example)).
-
-## Documentation
-
-Guides live in [`docs/`](docs/) (GitHub Pages when enabled): [getting started](docs/getting-started.md), [ports & RPC](docs/ports-and-rpc.md), [assets & logs](docs/assets-and-logs.md), [MCP](docs/mcp.md), [versioning](docs/versioning.md).
-
 ## Profiles
 
-Default profile is **`stable`**.
+Default: **`stable`**.
 
 | Profile          | Node   | Client | Sidecar |
 | ---------------- | ------ | ------ | ------- |
@@ -45,9 +51,7 @@ Default profile is **`stable`**.
 
 Published tags: `1.5.8`, `stable`, `2.2`, `dev`.
 
-## Make targets
-
-NCTL (unchanged):
+## Make
 
 ```sh
 make build 2.2
@@ -55,45 +59,44 @@ make start 2.2
 make start-log 2.2
 make build-start 2.2
 make stop 2.2
-```
-
-NCTL + MCP, or MCP alone:
-
-```sh
-make start-all 2.2      # NCTL + MCP :8788
+make start-all 2.2
 make stop-all 2.2
-make mcp-http           # MCP sidecar only
+make mcp-http
 make mcp-http-stop
-make run-mcp            # host stdio MCP (Rust)
-make run-mcp-http       # host HTTP MCP on 127.0.0.1:8788
+make run-mcp
+make run-mcp-http
 ```
 
 ## Ports
 
 | Range / port | Role |
 | --- | --- |
-| `11101-11105` | Node JSON-RPC |
+| `11101-11105` | JSON-RPC |
 | `14101-14105` | REST |
 | `18101-18105` | SSE |
-| `25101-25105` | Sidecar (2.x) |
-| `28101-28105` | Additional node ports |
-| `11100` | CORS proxy (optional profile) |
-| `8788` | MCP Streamable HTTP (`/mcp`) when using `start-all` / `mcp-http` |
+| `25101-25105` | Node sidecar (2.x) |
+| `28101-28105` | Additional |
+| `11100` | CORS proxy (optional) |
+| `8788` | MCP HTTP (`/mcp`) |
 
-How to know it is up: `docker ps` shows `casper-nctl-2-docker-<profile>`; POST `info_get_status` to `http://127.0.0.1:11101/rpc`; with MCP, use `http://127.0.0.1:8788/mcp`.
+Up check: container `casper-nctl-2-docker-<profile>`; RPC `http://127.0.0.1:11101/rpc`; MCP `http://127.0.0.1:8788/mcp`.
 
 ## Volumes
 
-Host `./assets` maps to NCTL **faucet**, **users**, **chainspec**, and **nodes** (logs under `assets/nodes` and `assets/logs`).
+Host `./assets` → faucet, users, chainspec, nodes (logs under `assets/nodes` and `assets/logs`).
 
-## CORS proxy
+## CORS
 
-Browser apps that call NCTL RPC can use the `cors-anywhere` profile on port **11100**:
+Optional proxy on **11100** for browser apps calling NCTL RPC:
 
 ```sh
 docker compose --profile 2.2 up -d
 docker compose --profile cors-anywhere up -d
 ```
+
+## Docs
+
+[`docs/`](docs/): [getting started](docs/getting-started.md) · [MCP](docs/mcp.md) · [ports](docs/ports-and-rpc.md) · [assets & logs](docs/assets-and-logs.md) · [profiles](docs/profiles.md) · [versioning](docs/versioning.md)
 
 ## License
 
