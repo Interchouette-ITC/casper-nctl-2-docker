@@ -2,7 +2,7 @@
 
 Local Casper testnet in Docker via [NCTL](https://docs.casper.network/) (Node Control Tool). Optional CORS proxy for browser apps, and an optional **Rust MCP** sidecar (**v2.2.2**) so Cursor (or other agents) can inspect faucet/users/nodes/logs and control the compose lifecycle.
 
-**Product name:** `casper-nctl-2-docker` (not `casper-nctl`). NCTL images use profile tags (`2.2`, `stable`, …); the MCP sidecar is versioned separately as **`2.2.2`** — see [docs/versioning.md](docs/versioning.md) and [CHANGELOG.md](CHANGELOG.md).
+NCTL images use profile tags (`2.2`, `stable`, …). The MCP sidecar is versioned separately as **`2.2.2`** — see [docs/versioning.md](docs/versioning.md) and [CHANGELOG.md](CHANGELOG.md).
 
 Images:
 
