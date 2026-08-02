@@ -65,7 +65,7 @@ Default: **`stable`**.
 | `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  |
 | `dev`            | dev    | dev    | dev     |
 
-Published tags: `1.5.8`, `stable`, `2.2`, `dev`.
+Published tags: `1.5.8`, `stable`, `2.2`, `latest`, `dev`.
 
 ## Make
 

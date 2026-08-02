@@ -19,7 +19,7 @@ BRANCH_NODE=v1.5.8
 BRANCH_CLIENT=v2.0.0
 ```
 
-**stable** (default) – Current recommended release (same as 2.2)
+**stable** (default) – Current recommended release (same as `2.2` / `latest`)
 
 ```
 BRANCH_NODE=v2.2.2
