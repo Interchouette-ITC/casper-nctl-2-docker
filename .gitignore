@@ -11,3 +11,9 @@ push_to_docker.sh
 .github_credentials
 .cursor
 
+# Rust MCP crate
+mcp/target/
+mcp/assets/
+
+# MkDocs output
+site/

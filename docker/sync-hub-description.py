@@ -17,9 +17,9 @@ import urllib.request
 
 HUB_LOGIN = "https://hub.docker.com/v2/users/login/"
 HUB_REPO = "https://hub.docker.com/v2/repositories/{ns}/{name}/"
-DEFAULT_SHORT = "Casper NCTL 2.0 bundled in Docker"
+DEFAULT_SHORT = "Casper NCTL local testnet in Docker (casper-nctl-2-docker)"
 DEFAULT_MD = pathlib.Path("docker/DOCKERHUB.md")
-DEFAULT_REPOS = ("interchouette/casper-nctl", "gregoshop/casper-nctl")
+DEFAULT_REPOS = ("interchouette/casper-nctl-2-docker",)
 
 
 def docker_cfg_creds() -> tuple[str | None, str | None]:
@@ -51,9 +51,9 @@ def hub_token(username: str, password: str) -> str:
 
 def patch_repo(token: str, repo: str, short: str, full: str) -> None:
     ns, name = repo.split("/", 1)
-    # Swap image namespace in examples to match the target Hub repo
-    body = full.replace("gregoshop/casper-nctl", f"{ns}/casper-nctl")
-    body = body.replace("interchouette/casper-nctl", f"{ns}/casper-nctl")
+    # Swap image namespace in examples to match the target Hub repo (longest names first)
+    body = full.replace("interchouette/casper-nctl-2-docker", f"{ns}/{name}")
+    body = body.replace("ghcr.io/interchouette-itc/casper-nctl-2-docker", f"ghcr.io/{ns}/{name}")
     payload = json.dumps({"description": short, "full_description": body}).encode()
     req = urllib.request.Request(
         HUB_REPO.format(ns=ns, name=name),

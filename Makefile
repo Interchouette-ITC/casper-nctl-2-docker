@@ -7,7 +7,7 @@ PROFILE ?= $(word 2,$(MAKECMDGOALS))
 PROFILE := $(if $(PROFILE),$(PROFILE),stable)
 
 # Define the image name
-IMAGE_NAME=interchouette/casper-nctl
+IMAGE_NAME=interchouette/casper-nctl-2-docker
 
 # Build the Docker image for the specified profile (default is stable)
 build:
@@ -25,7 +25,7 @@ build-start-log: build-no-cache
 build-start: build
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
-# Start the container in detached mode
+# Start the container in detached mode (NCTL only — unchanged)
 start:
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
@@ -33,9 +33,34 @@ start:
 start-log:
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans
 
-# Stop the container and clean up
+# Stop the container and clean up (NCTL profile only)
 stop:
 	$(DEV_DC) --profile $(PROFILE) down
+
+# NCTL profile + MCP HTTP sidecar on :8788
+start-all: start mcp-http
+
+stop-all: stop mcp-http-stop
+
+# Build / start / stop MCP sidecar only
+mcp-build:
+	$(DEV_DC) --profile mcp build nctl-mcp
+	docker tag casper-nctl-2-docker-mcp:2.2.2 casper-nctl-2-docker-mcp:latest 2>/dev/null || true
+
+mcp-http: mcp-build
+	$(DEV_DC) --profile mcp up --remove-orphans -d nctl-mcp
+
+mcp-http-stop:
+	-docker stop casper-nctl-2-docker-mcp 2>/dev/null
+	-docker rm casper-nctl-2-docker-mcp 2>/dev/null
+
+# Host stdio MCP (Rust)
+run-mcp:
+	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet --
+
+# Host HTTP MCP without Docker
+run-mcp-http:
+	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet -- --http --listen 127.0.0.1:8788
 
 # Start the Docker container based on the specified profile (e.g. stable, 2.2, dev)
 start-docker:
@@ -73,4 +98,5 @@ start-docker-%:
 	@:
 
 # Mark targets as not real files
-.PHONY: build start build-start build-start-log start-docker-%
+.PHONY: build start build-start build-start-log start-docker-% \
+	stop start-all stop-all mcp-build mcp-http mcp-http-stop run-mcp run-mcp-http

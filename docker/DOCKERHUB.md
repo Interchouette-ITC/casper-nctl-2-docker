@@ -1,11 +1,14 @@
 # Casper NCTL 2 Docker
 
-Containerized Casper NCTL for local testnets (1.x and 2.x), with an optional CORS proxy for browser apps.
+Containerized Casper NCTL for local testnets (1.x and 2.x), with an optional CORS proxy and an optional **Rust MCP** HTTP sidecar for AI agents.
+
+**Product:** `casper-nctl-2-docker`
 
 Source: https://github.com/gRoussac/casper-nctl-2-docker
 
-Docker Hub: [`interchouette/casper-nctl`](https://hub.docker.com/r/interchouette/casper-nctl)  
-Legacy mirror: [`gregoshop/casper-nctl`](https://hub.docker.com/r/gregoshop/casper-nctl)
+Docker Hub: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker)  
+GHCR: `ghcr.io/interchouette-itc/casper-nctl-2-docker`  
+Legacy Hub names (deprecated): `interchouette/casper-nctl`, `gregoshop/casper-nctl`
 
 ## Available Tags
 
@@ -45,19 +48,26 @@ BRANCH_SIDECAR=dev
 ## Running a Container
 
 ```bash
-docker pull interchouette/casper-nctl:stable
-docker run --rm -it interchouette/casper-nctl:2.2
+docker pull interchouette/casper-nctl-2-docker:stable
+docker run --rm -it interchouette/casper-nctl-2-docker:2.2
 ```
 
 Detached:
 
 ```bash
-docker run -d --name casper-nctl-stable interchouette/casper-nctl:stable
+docker run -d --name casper-nctl-2-docker-stable interchouette/casper-nctl-2-docker:stable
+```
+
+From a git clone, Make keeps **NCTL-only** vs **NCTL+MCP** separate:
+
+```bash
+make start 2.2        # NCTL only
+make start-all 2.2    # NCTL + MCP at http://127.0.0.1:8788/mcp
 ```
 
 ## Ports
 
-`11101-11105`, `14101-14105`, `18101-18105`, `25101-25105`, `28101-28105`
+`11101-11105` (RPC), `14101-14105` (REST), `18101-18105` (SSE), `25101-25105` (sidecar), `28101-28105`, optional CORS `11100`, optional MCP `8788`.
 
 ## Volumes
 
@@ -71,3 +81,7 @@ Optional CORS proxy on port `11100` for browser apps calling NCTL RPC:
 docker compose --profile 2.2 up -d
 docker compose --profile cors-anywhere up -d
 ```
+
+## MCP (agents)
+
+Slim Rust sidecar image `casper-nctl-2-docker-mcp:2.2.2` (also `:latest`; not inside the NCTL image): Streamable HTTP on **8788** → `/mcp`. MCP version is independent of NCTL profile tags — see repo `docs/versioning.md` and `docs/mcp.md`.

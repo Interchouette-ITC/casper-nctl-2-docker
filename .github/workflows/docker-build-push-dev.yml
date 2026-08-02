@@ -31,13 +31,13 @@ jobs:
       - name: Build Docker image for dev
         run: |
           make build dev
-          docker tag casper-nctl-2-docker-dev ${{ secrets.DOCKER_USERNAME }}/casper-nctl:dev
-          docker tag casper-nctl-2-docker-dev interchouette/casper-nctl:dev
+          docker tag casper-nctl-2-docker-dev ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:dev
+          docker tag casper-nctl-2-docker-dev interchouette/casper-nctl-2-docker:dev
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl:dev
-          docker push interchouette/casper-nctl:dev
+          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:dev
+          docker push interchouette/casper-nctl-2-docker:dev
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -48,10 +48,10 @@ jobs:
 
       - name: Tag Docker image for dev
         run: |
-          docker tag casper-nctl-2-docker-dev ghcr.io/groussac/casper-nctl:dev
-          docker tag casper-nctl-2-docker-dev ghcr.io/interchouette-itc/casper-nctl:dev
+          docker tag casper-nctl-2-docker-dev ghcr.io/groussac/casper-nctl-2-docker:dev
+          docker tag casper-nctl-2-docker-dev ghcr.io/interchouette-itc/casper-nctl-2-docker:dev
 
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/groussac/casper-nctl:dev
-          docker push ghcr.io/interchouette-itc/casper-nctl:dev
+          docker push ghcr.io/groussac/casper-nctl-2-docker:dev
+          docker push ghcr.io/interchouette-itc/casper-nctl-2-docker:dev

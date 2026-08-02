@@ -87,3 +87,24 @@ services:
       PORT: 11100
     ports:
       - 11100:11100
+
+  # Slim MCP sidecar (Streamable HTTP). Not started by plain `make start`.
+  # Use: make start-all <profile> | make mcp-http
+  nctl-mcp:
+    image: casper-nctl-2-docker-mcp:2.2.2
+    container_name: casper-nctl-2-docker-mcp
+    profiles: ["mcp"]
+    build:
+      context: ./mcp
+      dockerfile: Dockerfile
+    ports:
+      - "8788:8788"
+    volumes:
+      - ${PWD}:/workspace:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      NCTL_DOCKER_ROOT: /workspace
+      NCTL_MCP_HTTP: "1"
+      NCTL_MCP_ADDR: "0.0.0.0:8788"
+      DOCKER_HOST: unix:///var/run/docker.sock
+    working_dir: /workspace
