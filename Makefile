@@ -6,8 +6,15 @@ DEV_DC = docker compose -f $(CURRENT_DIR)/docker-compose.yml
 PROFILE ?= $(word 2,$(MAKECMDGOALS))
 PROFILE := $(if $(PROFILE),$(PROFILE),stable)
 
-# Define the image name
+# NCTL image
 IMAGE_NAME=interchouette/casper-nctl-2-docker
+
+# MCP sidecar image (tags follow NCTL profile line: 2.2 / stable / latest / dev)
+MCP_NAME=casper-nctl-2-docker-mcp
+MCP_HUB=interchouette/casper-nctl-2-docker-mcp
+MCP_GHCR_PERSONAL=ghcr.io/groussac/casper-nctl-2-docker-mcp
+MCP_GHCR_ORG=ghcr.io/interchouette-itc/casper-nctl-2-docker-mcp
+MCP_TAG=2.2
 
 # Build the Docker image for the specified profile (default is stable)
 build:
@@ -25,7 +32,7 @@ build-start-log: build-no-cache
 build-start: build
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
-# Start the container in detached mode (NCTL only — unchanged)
+# Start the container in detached mode (NCTL only)
 start:
 	$(DEV_DC) --profile $(PROFILE) up --remove-orphans -d
 
@@ -42,25 +49,63 @@ start-all: start mcp-http
 
 stop-all: stop mcp-http-stop
 
-# Build / start / stop MCP sidecar only
-mcp-build:
-	$(DEV_DC) --profile mcp build nctl-mcp
-	docker tag casper-nctl-2-docker-mcp:2.2.2 casper-nctl-2-docker-mcp:latest 2>/dev/null || true
+# --- MCP sidecar ---
 
-mcp-http: mcp-build
+mcp-build:
+	docker build -t $(MCP_NAME):$(MCP_TAG) -t $(MCP_NAME):stable -t $(MCP_NAME):latest \
+		-t $(MCP_HUB):$(MCP_TAG) -t $(MCP_HUB):stable -t $(MCP_HUB):latest \
+		-f mcp/Dockerfile mcp
+
+mcp-build-dev:
+	docker build -t $(MCP_NAME):dev -t $(MCP_HUB):dev \
+		-t $(MCP_GHCR_PERSONAL):dev -t $(MCP_GHCR_ORG):dev \
+		-f mcp/Dockerfile mcp
+
+# Prefer Hub image; build locally if pull fails
+mcp-http:
+	-docker pull $(MCP_HUB):$(MCP_TAG)
 	$(DEV_DC) --profile mcp up --remove-orphans -d nctl-mcp
 
 mcp-http-stop:
 	-docker stop casper-nctl-2-docker-mcp 2>/dev/null
 	-docker rm casper-nctl-2-docker-mcp 2>/dev/null
 
-# Host stdio MCP (Rust)
+# Host stdio / HTTP MCP (needs Rust toolchain)
 run-mcp:
 	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet --
 
-# Host HTTP MCP without Docker
 run-mcp-http:
 	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet -- --http --listen 127.0.0.1:8788
+
+mcp-docker-push-hub:
+	docker push $(MCP_HUB):$(MCP_TAG)
+	docker push $(MCP_HUB):stable
+	docker push $(MCP_HUB):latest
+
+mcp-docker-push-ghcr-personal:
+	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_PERSONAL):$(MCP_TAG)
+	docker tag $(MCP_HUB):stable $(MCP_GHCR_PERSONAL):stable
+	docker tag $(MCP_HUB):latest $(MCP_GHCR_PERSONAL):latest
+	docker push $(MCP_GHCR_PERSONAL):$(MCP_TAG)
+	docker push $(MCP_GHCR_PERSONAL):stable
+	docker push $(MCP_GHCR_PERSONAL):latest
+
+mcp-docker-push-ghcr-itc:
+	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_ORG):$(MCP_TAG)
+	docker tag $(MCP_HUB):stable $(MCP_GHCR_ORG):stable
+	docker tag $(MCP_HUB):latest $(MCP_GHCR_ORG):latest
+	docker push $(MCP_GHCR_ORG):$(MCP_TAG)
+	docker push $(MCP_GHCR_ORG):stable
+	docker push $(MCP_GHCR_ORG):latest
+
+mcp-docker-push-dev-hub:
+	docker push $(MCP_HUB):dev
+
+mcp-docker-push-dev-ghcr-personal:
+	docker push $(MCP_GHCR_PERSONAL):dev
+
+mcp-docker-push-dev-ghcr-itc:
+	docker push $(MCP_GHCR_ORG):dev
 
 # Start the Docker container based on the specified profile (e.g. stable, 2.2, dev)
 start-docker:
@@ -99,4 +144,7 @@ start-docker-%:
 
 # Mark targets as not real files
 .PHONY: build start build-start build-start-log start-docker-% \
-	stop start-all stop-all mcp-build mcp-http mcp-http-stop run-mcp run-mcp-http
+	stop start-all stop-all \
+	mcp-build mcp-build-dev mcp-http mcp-http-stop run-mcp run-mcp-http \
+	mcp-docker-push-hub mcp-docker-push-ghcr-personal mcp-docker-push-ghcr-itc \
+	mcp-docker-push-dev-hub mcp-docker-push-dev-ghcr-personal mcp-docker-push-dev-ghcr-itc

@@ -40,4 +40,4 @@ jobs:
         run: cargo clippy --all-targets --examples -- -D warnings
       - name: Build MCP image
         run: |
-          docker build -t casper-nctl-2-docker-mcp:2.2.2 -t casper-nctl-2-docker-mcp:latest -t casper-nctl-2-docker-mcp:ci .
+          docker build -t casper-nctl-2-docker-mcp:2.2 -t casper-nctl-2-docker-mcp:latest -t casper-nctl-2-docker-mcp:ci .

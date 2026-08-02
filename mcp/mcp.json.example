@@ -4,18 +4,20 @@
       "url": "http://127.0.0.1:8788/mcp"
     },
     "casper-nctl-2-docker-stdio": {
-      "command": "cargo",
+      "command": "docker",
       "args": [
         "run",
-        "--manifest-path",
-        "mcp/Cargo.toml",
-        "--quiet",
-        "--"
-      ],
-      "cwd": "${workspaceFolder}",
-      "env": {
-        "NCTL_DOCKER_ROOT": "${workspaceFolder}"
-      }
+        "--rm",
+        "-i",
+        "-v",
+        "/var/run/docker.sock:/var/run/docker.sock",
+        "-v",
+        "${workspaceFolder}:/workspace",
+        "-e",
+        "NCTL_DOCKER_ROOT=/workspace",
+        "interchouette/casper-nctl-2-docker-mcp:2.2",
+        "casper-nctl-2-docker-mcp"
+      ]
     }
   }
 }

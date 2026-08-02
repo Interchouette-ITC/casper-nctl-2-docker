@@ -12,7 +12,7 @@ use crate::{assets, logs, ops};
 pub struct NctlMcp;
 
 // Keep in sync with Cargo.toml `version`.
-#[mcp_server(name = "casper-nctl-2-docker", version = "2.2.2")]
+#[mcp_server(name = "casper-nctl-2-docker", version = "2.2.0")]
 impl NctlMcp {
     #[tool(description = "List profiles and Make↔MCP lifecycle parity (compose vs Hub docker run)")]
     async fn nctl_list_profiles(&self) -> ToolOutput {
@@ -258,7 +258,7 @@ mod tests {
     fn mcp_server_version_matches_crate() {
         assert_eq!(
             env!("CARGO_PKG_VERSION"),
-            "2.2.2",
+            "2.2.0",
             "bump #[mcp_server(version = …)] when changing Cargo.toml version"
         );
     }

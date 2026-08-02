@@ -91,7 +91,7 @@ services:
   # Slim MCP sidecar (Streamable HTTP). Not started by plain `make start`.
   # Use: make start-all <profile> | make mcp-http
   nctl-mcp:
-    image: casper-nctl-2-docker-mcp:2.2.2
+    image: interchouette/casper-nctl-2-docker-mcp:2.2
     container_name: casper-nctl-2-docker-mcp
     profiles: ["mcp"]
     build:

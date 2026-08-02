@@ -2,7 +2,10 @@
 
 Local multi-node [Casper](https://docs.casper.network/) testnet in Docker ([NCTL](https://docs.casper.network/)), plus a Rust **MCP** server so tools and agents can start/stop the network, read faucet/user/node keys, and inspect logs.
 
-Images: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker) · `ghcr.io/interchouette-itc/casper-nctl-2-docker`
+Images:
+
+- NCTL: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker) · `ghcr.io/interchouette-itc/casper-nctl-2-docker`
+- MCP: [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) · `ghcr.io/interchouette-itc/casper-nctl-2-docker-mcp`
 
 Assets under `./assets` are **testnet-only**. Do not use them on mainnet.
 
@@ -10,17 +13,30 @@ Assets under `./assets` are **testnet-only**. Do not use them on mainnet.
 
 Control and debug the local testnet over MCP (stdio or Streamable HTTP on port **8788**).
 
+Pull and run (no Rust toolchain required):
+
+```bash
+docker pull interchouette/casper-nctl-2-docker-mcp:2.2
+docker run --rm -d --name casper-nctl-2-docker-mcp \
+  -p 8788:8788 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v "$PWD":/workspace \
+  -e NCTL_DOCKER_ROOT=/workspace \
+  interchouette/casper-nctl-2-docker-mcp:2.2
+```
+
+From a clone:
+
 ```sh
 make start-all 2.2      # NCTL + MCP at http://127.0.0.1:8788/mcp
 make stop-all 2.2
-make run-mcp            # stdio on the host
-make run-mcp-http       # HTTP on 127.0.0.1:8788 without Docker
-make mcp-http           # MCP container only
+make mcp-http           # MCP only (pulls Hub image)
+make run-mcp            # stdio on the host (needs Rust)
 ```
 
-Cursor config examples: [`mcp/mcp.json.example`](mcp/mcp.json.example). Tool list and details: [`docs/mcp.md`](docs/mcp.md).
+Cursor: `"url": "http://127.0.0.1:8788/mcp"` — see [`mcp/mcp.json.example`](mcp/mcp.json.example) and [`docs/mcp.md`](docs/mcp.md).
 
-`make start` still starts **NCTL only**. Use `start-all` (or `mcp-http` / `run-mcp*`) when you want MCP.
+`make start` starts **NCTL only**. Use `start-all` / `mcp-http` when you want MCP.
 
 ## Quick start (image)
 

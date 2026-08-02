@@ -1,17 +1,17 @@
 # Versioning
 
-| What | Version | Where |
+| What | Tags | Registry |
 | --- | --- | --- |
-| NCTL testnet image | Profile tags (`stable`, `2.2`, `dev`, …) | Docker Hub / GHCR |
-| MCP sidecar | Semver in `mcp/Cargo.toml` (currently `2.2.2`) | MCP handshake + image `casper-nctl-2-docker-mcp:<version>` |
+| NCTL testnet | `stable`, `2.2`, `2.1`, `dev`, … | `interchouette/casper-nctl-2-docker` |
+| MCP sidecar | same line (`2.2`, `stable`, `latest`, `dev`) | `interchouette/casper-nctl-2-docker-mcp` |
 
-Profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). Shipping is image tags, not GitHub Releases.
+NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP crate version in `mcp/Cargo.toml` tracks the active line (e.g. `2.2.0` for image `:2.2`).
 
 When changing MCP tools or transport:
 
-1. Bump `mcp/Cargo.toml` `version`
-2. Match `#[mcp_server(version = "…")]` in `mcp/src/server.rs`
-3. Tag the MCP image (`casper-nctl-2-docker-mcp:<version>` and `:latest`)
+1. Bump `mcp/Cargo.toml` and `#[mcp_server(version = …)]`
+2. Align `MCP_TAG` / compose image tag in the Makefile and `docker-compose.yml`
+3. Push Hub/GHCR tags via the MCP image workflows
 4. Update root `CHANGELOG.md`
 
 See [MCP for agents](mcp.md).
