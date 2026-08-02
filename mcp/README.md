@@ -1,6 +1,6 @@
 # MCP server for casper-nctl-2-docker
 
-Rust **mcpkit** server (`casper-nctl-2-docker-mcp` **v2.2.2**) to control and debug a local NCTL testnet from Cursor.
+Rust **mcpkit** server (`casper-nctl-2-docker-mcp`) to control and debug a local NCTL testnet from Cursor.
 
 ## Transports
 

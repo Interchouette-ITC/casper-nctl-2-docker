@@ -84,4 +84,4 @@ docker compose --profile cors-anywhere up -d
 
 ## MCP (agents)
 
-Slim Rust sidecar image `casper-nctl-2-docker-mcp:2.2.2` (also `:latest`; not inside the NCTL image): Streamable HTTP on **8788** → `/mcp`. MCP version is independent of NCTL profile tags — see repo `docs/versioning.md` and `docs/mcp.md`.
+Slim Rust sidecar image `casper-nctl-2-docker-mcp` (not inside the NCTL image): Streamable HTTP on **8788** → `/mcp`. See `docs/mcp.md`.

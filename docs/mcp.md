@@ -1,8 +1,6 @@
 # MCP for agents
 
-Rust binary `casper-nctl-2-docker-mcp` **v2.2.2** (mcpkit), tvscreener-style dual transport.
-
-**Version:** MCP sidecar semver is **`2.2.2`** (smiles at node pin `v2.2.2` / profile `2.2`; not locked to it). See [Versioning](versioning.md). Changelog: repository root `CHANGELOG.md`.
+Rust binary `casper-nctl-2-docker-mcp` (mcpkit): stdio or Streamable HTTP.
 
 | Mode | How | Cursor |
 | --- | --- | --- |
