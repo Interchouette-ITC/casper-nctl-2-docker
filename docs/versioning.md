@@ -14,6 +14,7 @@ Do **not** rebuild every historical family on each merge to `dev`. Floating and 
 | Trigger                                      | Rebuilds                                                         |
 | -------------------------------------------- | ---------------------------------------------------------------- |
 | Push to `dev` (non-docs paths)               | `:dev`, `:2.2` (+ `:stable` + `:latest`)                         |
+| Pull request to `dev` (docker-relevant)      | Build `2.2` + CORS only (no parked families)                     |
 | Daily cron                                   | `:dev` only                                                      |
 | Actions → Run workflow (`workflow_dispatch`) | Parked `:2.1`, `:2.0`, `:1.5.8` / `:1.6`                         |
 

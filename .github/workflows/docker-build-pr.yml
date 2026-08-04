@@ -6,6 +6,7 @@ on:
       - dev
 
 # No paths-ignore: branch protection requires these job names on every PR.
+# Active PR image builds: 2.2 + cors only (2.1 is parked like push publish).
 jobs:
   detect:
     name: Detect Docker-relevant changes
@@ -35,22 +36,6 @@ jobs:
           done < <(git diff --name-only "$BASE"...HEAD)
           echo "docker=${relevant}" >> "$GITHUB_OUTPUT"
           echo "docker-relevant=${relevant}"
-
-  build-2-1:
-    name: Build Docker image 2.1
-    needs: detect
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip build
-        if: needs.detect.outputs.docker != 'true'
-        run: echo skipped
-      - if: needs.detect.outputs.docker == 'true'
-        uses: actions/checkout@v6
-      - if: needs.detect.outputs.docker == 'true'
-        uses: docker/setup-buildx-action@v4
-      - name: Build 2.1 image
-        if: needs.detect.outputs.docker == 'true'
-        run: make build 2.1
 
   build-2-2:
     name: Build Docker image 2.2
