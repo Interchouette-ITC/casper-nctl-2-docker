@@ -11,11 +11,11 @@ NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profile
 
 Do **not** rebuild every historical family on each merge to `dev`. Floating and active family tags move; legacy families stay on Hub until you refresh them on purpose.
 
-| Trigger                                      | Rebuilds                                         |
-| -------------------------------------------- | ------------------------------------------------ |
-| Push to `dev` (non-docs paths)               | `:dev`, `:2.2` (+ `:stable` + `:latest`), `:2.1` |
-| Daily cron                                   | `:dev` only                                      |
-| Actions → Run workflow (`workflow_dispatch`) | Legacy `:2.0`, `:1.5.8` / `:1.6`                 |
+| Trigger                                      | Rebuilds                                                         |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| Push to `dev` (non-docs paths)               | `:dev`, `:2.2` (+ `:stable` + `:latest`)                         |
+| Daily cron                                   | `:dev` only                                                      |
+| Actions → Run workflow (`workflow_dispatch`) | Parked `:2.1`, `:2.0`, `:1.5.8` / `:1.6`                         |
 
 Legacy Hub tags are not removed; they simply are not rebuilt automatically.
 
