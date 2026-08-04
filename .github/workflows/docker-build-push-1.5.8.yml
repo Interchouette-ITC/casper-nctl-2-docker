@@ -1,16 +1,8 @@
 name: CI/CD Image 1.5.8 / 1.6
 
+# Legacy family: publish on demand only (does not run on every push to dev).
 on:
-  push:
-    branches:
-      - dev
-    paths-ignore:
-      - "**/*.md"
-      - "**/*.mdc"
-      - "docs/**"
-      - "mkdocs.yml"
-      - "LICENSE"
-      - "CHANGELOG.md"
+  workflow_dispatch:
 
 jobs:
   nightly-build-push-1-5-8:

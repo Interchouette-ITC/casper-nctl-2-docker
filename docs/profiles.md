@@ -2,13 +2,15 @@
 
 Compose **profiles** match image **tags** for published builds.
 
-| Profile          | Node   | Client | Sidecar | Published tag             |
-| ---------------- | ------ | ------ | ------- | ------------------------- |
-| `1.5.8` / `1.6`  | v1.5.8 | v2.0.0 | —       | `1.5.8`, `1.6`            |
-| `stable` / `2.2` | v2.2.2 | v5.0.1 | v2.1.0  | `stable`, `2.2`, `latest` |
-| `2.0`            | v2.0.4 | v5.0.0 | v2.0.0  | `2.0`                     |
-| `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  | `2.1`                     |
-| `dev`            | dev    | dev    | dev     | `dev`                     |
+| Profile          | Node   | Client | Sidecar | Published tag             | CI on push to `dev`  |
+| ---------------- | ------ | ------ | ------- | ------------------------- | -------------------- |
+| `1.5.8` / `1.6`  | v1.5.8 | v2.0.0 | —       | `1.5.8`, `1.6`            | manual dispatch only |
+| `stable` / `2.2` | v2.2.2 | v5.0.1 | v2.1.0  | `stable`, `2.2`, `latest` | yes                  |
+| `2.0`            | v2.0.4 | v5.0.0 | v2.0.0  | `2.0`                     | manual dispatch only |
+| `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  | `2.1`                     | yes                  |
+| `dev`            | dev    | dev    | dev     | `dev`                     | yes (+ daily cron)   |
+
+Pull published images from `interchouette/casper-nctl-2-docker` (not legacy `gregoshop/casper-nctl`). Rebuild policy: [Versioning](versioning.md).
 
 ```sh
 make start stable
