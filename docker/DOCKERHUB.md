@@ -8,7 +8,7 @@ Source: https://github.com/gRoussac/casper-nctl-2-docker
 
 Docker Hub: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker)
 GHCR: `ghcr.io/interchouette-itc/casper-nctl-2-docker`
-Legacy Hub names (deprecated): `interchouette/casper-nctl`, `gregoshop/casper-nctl`
+Legacy Hub names (archived / no longer published): `interchouette/casper-nctl`, `gregoshop/casper-nctl`
 
 ## Available Tags
 

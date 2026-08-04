@@ -28,15 +28,11 @@ jobs:
       - name: Build Docker image for 1.5.8
         run: |
           make build 1.5.8
-          docker tag casper-nctl-2-docker-1.5.8 ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:1.5.8
-          docker tag casper-nctl-2-docker-1.5.8 ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:1.6
           docker tag casper-nctl-2-docker-1.5.8 interchouette/casper-nctl-2-docker:1.5.8
           docker tag casper-nctl-2-docker-1.5.8 interchouette/casper-nctl-2-docker:1.6
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:1.5.8
-          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:1.6
           docker push interchouette/casper-nctl-2-docker:1.5.8
           docker push interchouette/casper-nctl-2-docker:1.6
 

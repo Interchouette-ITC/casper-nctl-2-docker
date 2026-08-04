@@ -10,7 +10,7 @@ Compose **profiles** match image **tags** for published builds.
 | `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  | `2.1`                     | manual dispatch only |
 | `dev`            | dev    | dev    | dev     | `dev`                     | yes (+ daily cron)   |
 
-Pull published images from `interchouette/casper-nctl-2-docker` (not legacy `gregoshop/casper-nctl`). Rebuild policy: [Versioning](versioning.md).
+Pull published images from `interchouette/casper-nctl-2-docker` (legacy `gregoshop/casper-nctl` is archived). Rebuild policy: [Versioning](versioning.md).
 
 ```sh
 make start stable

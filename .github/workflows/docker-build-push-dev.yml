@@ -38,12 +38,10 @@ jobs:
       - name: Build Docker image for dev
         run: |
           make build dev
-          docker tag casper-nctl-2-docker-dev ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:dev
           docker tag casper-nctl-2-docker-dev interchouette/casper-nctl-2-docker:dev
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/casper-nctl-2-docker:dev
           docker push interchouette/casper-nctl-2-docker:dev
 
       - name: Log in to GitHub Container Registry
