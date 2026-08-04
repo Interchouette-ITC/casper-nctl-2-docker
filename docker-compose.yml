@@ -11,6 +11,19 @@ services:
         - BRANCH_NODE=v1.5.8
         - BRANCH_CLIENT=v2.0.0
 
+  # Alias of 1.5.8 (same node/client pins); Hub also publishes :1.6
+  casper-nctl-2-docker-1.6:
+    image: casper-nctl-2-docker-1.6:latest
+    container_name: casper-nctl-2-docker-1.6
+    extends:
+      service: casper-nctl-2-docker
+      file: common-service.yml
+    profiles: ["1.6"]
+    build:
+      args:
+        - BRANCH_NODE=v1.5.8
+        - BRANCH_CLIENT=v2.0.0
+
   casper-nctl-2-docker-stable:
     image: casper-nctl-2-docker-stable:latest
     container_name: casper-nctl-2-docker-stable

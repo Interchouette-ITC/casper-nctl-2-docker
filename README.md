@@ -59,13 +59,13 @@ Default: **`stable`**.
 
 | Profile          | Node   | Client | Sidecar |
 | ---------------- | ------ | ------ | ------- |
-| `1.5.8`          | v1.5.8 | v2.0.0 | —       |
+| `1.5.8` / `1.6`  | v1.5.8 | v2.0.0 | —       |
 | `stable` / `2.2` | v2.2.2 | v5.0.1 | v2.1.0  |
 | `2.0`            | v2.0.4 | v5.0.0 | v2.0.0  |
 | `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  |
 | `dev`            | dev    | dev    | dev     |
 
-Published tags: `1.5.8`, `stable`, `2.2`, `latest`, `dev`.
+Published tags: `1.5.8`, `1.6`, `2.0`, `2.1`, `stable`, `2.2`, `latest`, `dev`.
 
 ## Make
 
@@ -85,15 +85,15 @@ make run-mcp-http
 
 ## Ports
 
-| Range / port | Role |
-| --- | --- |
-| `11101-11105` | JSON-RPC |
-| `14101-14105` | REST |
-| `18101-18105` | SSE |
-| `25101-25105` | Node sidecar (2.x) |
-| `28101-28105` | Additional |
-| `11100` | CORS proxy (optional) |
-| `8788` | MCP HTTP (`/mcp`) |
+| Range / port  | Role                  |
+| ------------- | --------------------- |
+| `11101-11105` | JSON-RPC              |
+| `14101-14105` | REST                  |
+| `18101-18105` | SSE                   |
+| `25101-25105` | Node sidecar (2.x)    |
+| `28101-28105` | Additional            |
+| `11100`       | CORS proxy (optional) |
+| `8788`        | MCP HTTP (`/mcp`)     |
 
 Up check: container `casper-nctl-2-docker-<profile>`; RPC `http://127.0.0.1:11101/rpc`; MCP `http://127.0.0.1:8788/mcp`.
 

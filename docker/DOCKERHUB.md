@@ -6,13 +6,13 @@ Containerized Casper NCTL for local testnets (1.x and 2.x), with an optional COR
 
 Source: https://github.com/gRoussac/casper-nctl-2-docker
 
-Docker Hub: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker)  
-GHCR: `ghcr.io/interchouette-itc/casper-nctl-2-docker`  
+Docker Hub: [`interchouette/casper-nctl-2-docker`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker)
+GHCR: `ghcr.io/interchouette-itc/casper-nctl-2-docker`
 Legacy Hub names (deprecated): `interchouette/casper-nctl`, `gregoshop/casper-nctl`
 
 ## Available Tags
 
-**1.5.8** – Legacy Casper 1.x
+**1.5.8** / **1.6** – Legacy Casper 1.x (`1.6` is an alias of `1.5.8`)
 
 ```
 BRANCH_NODE=v1.5.8
@@ -35,7 +35,21 @@ BRANCH_CLIENT=v5.0.1
 BRANCH_SIDECAR=v2.1.0
 ```
 
-**2.0** / **2.1** – Earlier 2.x pins (build locally via compose profiles)
+**2.0**
+
+```
+BRANCH_NODE=v2.0.4
+BRANCH_CLIENT=v5.0.0
+BRANCH_SIDECAR=v2.0.0
+```
+
+**2.1**
+
+```
+BRANCH_NODE=v2.1.2
+BRANCH_CLIENT=v5.0.0
+BRANCH_SIDECAR=v2.0.0
+```
 
 **dev** – Latest development branches for node, client, and sidecar
 
