@@ -1,6 +1,6 @@
 # MCP for agents
 
-Rust MCP server for this product: **stdio** or **Streamable HTTP** on port **8788**.
+Rust MCP server for this product: **stdio** or **Streamable HTTP** on port **8791**.
 
 Published image: [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) (`:2.2`, `:latest`, `:dev`).
 
@@ -13,14 +13,14 @@ docker pull interchouette/casper-nctl-2-docker:2.2
 # MCP HTTP sidecar (needs Docker socket + a workspace dir with this repo or assets)
 docker pull interchouette/casper-nctl-2-docker-mcp:2.2
 docker run --rm -d --name casper-nctl-2-docker-mcp \
-  -p 8788:8788 \
+  -p 8791:8791 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$PWD":/workspace \
   -e NCTL_DOCKER_ROOT=/workspace \
   interchouette/casper-nctl-2-docker-mcp:2.2
 ```
 
-Cursor: `"url": "http://127.0.0.1:8788/mcp"`.
+Cursor: `"url": "http://127.0.0.1:8791/mcp"`.
 
 From a clone, `make mcp-http` / `make start-all 2.2` pulls (or builds) the same image.
 
@@ -30,18 +30,18 @@ From a clone, `make mcp-http` / `make start-all 2.2` pulls (or builds) the same 
 | --- | --- |
 | `make start 2.2` | NCTL only |
 | `make stop 2.2` | Stop NCTL profile |
-| `make start-all 2.2` | NCTL + MCP on **8788** |
+| `make start-all 2.2` | NCTL + MCP on **8791** |
 | `make stop-all 2.2` | Stop NCTL + MCP |
 | `make mcp-http` | MCP sidecar only (pull Hub image) |
 | `make mcp-http-stop` | Stop MCP sidecar |
 | `make mcp-build` | Build MCP image locally |
 | `make run-mcp` | Host **stdio** MCP (Rust toolchain) |
-| `make run-mcp-http` | Host HTTP on `127.0.0.1:8788` |
+| `make run-mcp-http` | Host HTTP on `127.0.0.1:8791` |
 
 ```bash
 casper-nctl-2-docker-mcp                         # stdio
-casper-nctl-2-docker-mcp --http                  # 0.0.0.0:8788
-casper-nctl-2-docker-mcp --http --listen 127.0.0.1:8788
+casper-nctl-2-docker-mcp --http                  # 0.0.0.0:8791
+casper-nctl-2-docker-mcp --http --listen 127.0.0.1:8791
 ```
 
 Example Cursor config: repository file `mcp/mcp.json.example`.
@@ -63,7 +63,7 @@ MCP drives **Docker** via Make/compose (or Hub `docker run`). It does not run NC
 | `nctl_build_start` | `make build-start` | Build then `up -d` |
 | `nctl_build_start_log` | `make build-start-log` | No-cache build + start + log tail |
 | `nctl_stop` | `make stop` | Compose down |
-| `nctl_start_all` | `make start-all` | NCTL + MCP `:8788` |
+| `nctl_start_all` | `make start-all` | NCTL + MCP `:8791` |
 | `nctl_stop_all` | `make stop-all` | |
 | `nctl_start_docker` | `make start-docker` | Hub image `docker run` **detached** (Make uses `-it`) |
 | `nctl_stop_docker` | — | Remove Hub-run container |

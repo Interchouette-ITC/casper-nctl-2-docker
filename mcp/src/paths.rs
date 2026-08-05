@@ -4,8 +4,8 @@ use std::env;
 use std::path::{Component, Path, PathBuf};
 
 pub const PROFILES: &[&str] = &["stable", "2.2", "2.1", "2.0", "1.5.8", "dev"];
-pub const DEFAULT_MCP_ADDR: &str = "0.0.0.0:8788";
-pub const DEFAULT_MCP_URL: &str = "http://127.0.0.1:8788/mcp";
+pub const DEFAULT_MCP_ADDR: &str = "0.0.0.0:8791";
+pub const DEFAULT_MCP_URL: &str = "http://127.0.0.1:8791/mcp";
 pub const MAX_TEXT_BYTES: usize = 96 * 1024;
 
 pub fn repo_root() -> PathBuf {

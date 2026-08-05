@@ -21,4 +21,4 @@ make start-all dev    # NCTL + MCP
 Separate compose profiles:
 
 - `cors-anywhere` — browser CORS proxy on `11100`
-- `mcp` — Rust MCP HTTP sidecar on `8788` (via `make mcp-http` / `make start-all`)
+- `mcp` — Rust MCP HTTP sidecar on `8791` (via `make mcp-http` / `make start-all`)

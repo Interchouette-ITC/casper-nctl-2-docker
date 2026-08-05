@@ -22,7 +22,7 @@ git clone https://github.com/gRoussac/casper-nctl-2-docker.git
 cd casper-nctl-2-docker
 make start 2.2          # NCTL only (existing behavior)
 # or
-make start-all 2.2      # NCTL + MCP HTTP on :8788
+make start-all 2.2      # NCTL + MCP HTTP on :8791
 ```
 
 First build of a profile can take a long time (compiles node/client/sidecar). Prefer published tags when you only need to run.
@@ -31,7 +31,7 @@ First build of a profile can take a long time (compiles node/client/sidecar). Pr
 
 1. `docker ps` shows `casper-nctl-2-docker-<profile>`.
 2. RPC: POST `info_get_status` to `http://127.0.0.1:11101/rpc`.
-3. If you used `start-all`, MCP is at `http://127.0.0.1:8788/mcp`.
+3. If you used `start-all`, MCP is at `http://127.0.0.1:8791/mcp`.
 
 ## Next
 

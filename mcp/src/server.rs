@@ -71,7 +71,7 @@ impl NctlMcp {
         ToolOutput::text(ops::stop_profile(&profile))
     }
 
-    #[tool(description = "make start-all <profile> — NCTL compose + MCP HTTP sidecar on :8788")]
+    #[tool(description = "make start-all <profile> — NCTL compose + MCP HTTP sidecar on :8791")]
     async fn nctl_start_all(&self, profile: Option<String>) -> ToolOutput {
         let profile = profile.unwrap_or_else(|| "stable".into());
         ToolOutput::text(ops::start_all(&profile))
@@ -210,7 +210,7 @@ pub async fn run() -> Result<(), McpError> {
 }
 
 /// Default HTTP bind address for Streamable MCP.
-pub const DEFAULT_HTTP_LISTEN: &str = "0.0.0.0:8788";
+pub const DEFAULT_HTTP_LISTEN: &str = "0.0.0.0:8791";
 
 /// Serves MCP over Streamable HTTP until the process is stopped.
 pub async fn run_http(addr: &str) -> std::io::Result<()> {

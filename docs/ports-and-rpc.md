@@ -8,7 +8,7 @@
 | `25101-25105` | Sidecar RPC (2.x) |
 | `28101-28105` | Additional |
 | `11100` | CORS proxy (`cors-anywhere` profile) |
-| `8788` | MCP Streamable HTTP (`/mcp`) |
+| `8791` | MCP Streamable HTTP (`/mcp`) |
 
 Typical node-1 RPC:
 
@@ -20,4 +20,4 @@ curl -s -X POST http://127.0.0.1:11101/rpc \
 
 MCP (after `make start-all` or `make mcp-http`):
 
-`http://127.0.0.1:8788/mcp`
+`http://127.0.0.1:8791/mcp`

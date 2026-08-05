@@ -7,7 +7,7 @@ Rust **mcpkit** server (`casper-nctl-2-docker-mcp`) to control and debug a local
 | Mode | Command | Use |
 | --- | --- | --- |
 | **stdio** | `make run-mcp` / `casper-nctl-2-docker-mcp` | Local Cursor spawn |
-| **HTTP** | `make mcp-http` or `make start-all <profile>` | Streamable HTTP on **8788** → `http://127.0.0.1:8788/mcp` |
+| **HTTP** | `make mcp-http` or `make start-all <profile>` | Streamable HTTP on **8791** → `http://127.0.0.1:8791/mcp` |
 
 Existing `make start <profile>` stays **NCTL only**. Use `make start-all <profile>` for NCTL + MCP.
 

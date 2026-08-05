@@ -25,7 +25,7 @@ fn list_profiles_mentions_parity() {
 fn endpoints_include_mcp_and_rpc() {
     let text = ops::endpoints("2.2");
     assert!(text.contains("11101"));
-    assert!(text.contains("8788"));
+    assert!(text.contains("8791"));
     assert!(text.contains("casper-nctl-2-docker-2.2"));
 }
 

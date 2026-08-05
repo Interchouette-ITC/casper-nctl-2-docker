@@ -76,12 +76,12 @@ From a git clone, Make keeps **NCTL-only** vs **NCTL+MCP** separate:
 
 ```bash
 make start 2.2        # NCTL only
-make start-all 2.2    # NCTL + MCP at http://127.0.0.1:8788/mcp
+make start-all 2.2    # NCTL + MCP at http://127.0.0.1:8791/mcp
 ```
 
 ## Ports
 
-`11101-11105` (RPC), `14101-14105` (REST), `18101-18105` (SSE), `25101-25105` (sidecar), `28101-28105`, optional CORS `11100`, optional MCP `8788`.
+`11101-11105` (RPC), `14101-14105` (REST), `18101-18105` (SSE), `25101-25105` (sidecar), `28101-28105`, optional CORS `11100`, optional MCP `8791`.
 
 ## Volumes
 
@@ -98,4 +98,4 @@ docker compose --profile cors-anywhere up -d
 
 ## MCP (agents)
 
-Image [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) (`:2.2` / `:latest`): Streamable HTTP on **8788** → `/mcp`. Not inside the NCTL image. See repo `docs/mcp.md`.
+Image [`interchouette/casper-nctl-2-docker-mcp`](https://hub.docker.com/r/interchouette/casper-nctl-2-docker-mcp) (`:2.2` / `:latest`): Streamable HTTP on **8791** → `/mcp`. Not inside the NCTL image. See repo `docs/mcp.md`.
