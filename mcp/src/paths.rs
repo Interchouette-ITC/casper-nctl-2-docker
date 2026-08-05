@@ -13,11 +13,11 @@ pub fn repo_root() -> PathBuf {
         return PathBuf::from(env_root);
     }
     let cwd = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-    if cwd.join("docker-compose.yml").is_file() {
+    if cwd.join("docker/docker-compose.yml").is_file() {
         return cwd;
     }
     // mcp/ is one level under repo when running via cargo from mcp/
-    if cwd.join("../docker-compose.yml").is_file() {
+    if cwd.join("../docker/docker-compose.yml").is_file() {
         return cwd
             .join("..")
             .canonicalize()
@@ -80,7 +80,8 @@ mod tests {
         dir.push(format!("nctl-mcp-path-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(dir.join("assets")).unwrap();
-        fs::write(dir.join("docker-compose.yml"), "services: {}\n").unwrap();
+        fs::create_dir_all(dir.join("docker")).unwrap();
+        fs::write(dir.join("docker/docker-compose.yml"), "services: {}\n").unwrap();
         env::set_var("NCTL_DOCKER_ROOT", &dir);
         assert!(safe_under_assets("../docker-compose.yml").is_err());
         env::remove_var("NCTL_DOCKER_ROOT");

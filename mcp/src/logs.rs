@@ -250,7 +250,8 @@ mod tests {
             "hello\nERROR boom\nbye\n",
         )
         .unwrap();
-        fs::write(dir.join("docker-compose.yml"), "services: {}\n").unwrap();
+        fs::create_dir_all(dir.join("docker")).unwrap();
+        fs::write(dir.join("docker/docker-compose.yml"), "services: {}\n").unwrap();
         env::set_var("NCTL_DOCKER_ROOT", &dir);
         let out = logs_grep("error", "assets_stdout", None, "stable", 40);
         assert!(

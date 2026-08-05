@@ -227,7 +227,8 @@ mod tests {
         fs::create_dir_all(dir.join("assets/nodes/node-1/logs")).unwrap();
         fs::create_dir_all(dir.join("assets/chainspec")).unwrap();
         fs::write(dir.join("assets/chainspec/chainspec.toml"), "[protocol]\n").unwrap();
-        fs::write(dir.join("docker-compose.yml"), "services: {}\n").unwrap();
+        fs::create_dir_all(dir.join("docker")).unwrap();
+        fs::write(dir.join("docker/docker-compose.yml"), "services: {}\n").unwrap();
         env::set_var("NCTL_DOCKER_ROOT", &dir);
         f(&dir);
         env::remove_var("NCTL_DOCKER_ROOT");

@@ -8,7 +8,7 @@ on:
       - "**/*.md"
       - "**/*.mdc"
       - "docs/**"
-      - "mkdocs.yml"
+      - "docs/mkdocs.yml"
       - "LICENSE"
       - "CHANGELOG.md"
 

@@ -1,3 +1,5 @@
+name: casper-nctl-2-docker
+
 services:
   casper-nctl-2-docker-1.5.8:
     image: casper-nctl-2-docker-1.5.8:latest
@@ -93,7 +95,7 @@ services:
     container_name: cors-anywhere
     profiles: ["cors-anywhere"]
     build:
-      context: ./cors
+      context: ../cors
       dockerfile: cors-anywhere.Dockerfile
     tty: true
     environment:
@@ -108,7 +110,7 @@ services:
     container_name: casper-nctl-2-docker-mcp
     profiles: ["mcp"]
     build:
-      context: ./mcp
+      context: ../mcp
       dockerfile: Dockerfile
     ports:
       - "8790:8790"
@@ -117,7 +119,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       NCTL_DOCKER_ROOT: /workspace
-      MCP_HTTP: "true"
+      NCTL_MCP_HTTP: "1"
       NCTL_MCP_ADDR: "0.0.0.0:8790"
       DOCKER_HOST: unix:///var/run/docker.sock
     working_dir: /workspace

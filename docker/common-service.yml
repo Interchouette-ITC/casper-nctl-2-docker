@@ -3,7 +3,8 @@ services:
     container_name: casper-nctl-2-docker
     image: casper-nctl-2-docker:latest
     build:
-      dockerfile: ./Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
       args:
         BRANCH_NODE: v1.5.8
         BRANCH_CLIENT: v2.0.0

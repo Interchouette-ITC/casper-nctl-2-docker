@@ -6,11 +6,6 @@ assets/**
 .env
 .env.*
 
-# Personal local helper (not part of the published repo)
-push_to_docker.sh
-.github_credentials
-.cursor
-
 # Rust MCP crate
 mcp/target/
 mcp/assets/

@@ -30,7 +30,7 @@ Legacy Hub tags are not removed; they simply are not rebuilt automatically.
 When changing MCP tools or transport:
 
 1. Bump `mcp/Cargo.toml` and `#[mcp_server(version = …)]`
-2. Align `MCP_TAG` / compose image tag in the Makefile and `docker-compose.yml`
+2. Align `MCP_TAG` / compose image tag in the Makefile and `docker/docker-compose.yml`
 3. Push Hub/GHCR tags via the MCP image workflows
 4. Update root `CHANGELOG.md`
 

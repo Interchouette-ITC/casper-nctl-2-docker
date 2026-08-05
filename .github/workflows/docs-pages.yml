@@ -6,7 +6,7 @@ on:
     branches: [dev]
     paths:
       - "docs/**"
-      - "mkdocs.yml"
+      - "docs/mkdocs.yml"
       - ".github/workflows/docs-pages.yml"
 
 permissions:
@@ -29,7 +29,7 @@ jobs:
       - name: Install MkDocs
         run: pip install "mkdocs-material>=9.5"
       - name: Build site
-        run: mkdocs build --strict
+        run: mkdocs build --strict -f docs/mkdocs.yml
       - name: Upload Pages artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         uses: actions/upload-pages-artifact@v5

@@ -4,6 +4,9 @@ site_url: https://interchouette-itc.github.io/casper-nctl-2-docker/
 repo_url: https://github.com/Interchouette-ITC/casper-nctl-2-docker
 edit_uri: edit/dev/docs/
 
+docs_dir: .
+site_dir: ../site
+
 theme:
   name: material
   palette:

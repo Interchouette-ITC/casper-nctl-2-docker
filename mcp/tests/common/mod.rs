@@ -38,7 +38,8 @@ impl FakeRepo {
         fs::create_dir_all(root.join("assets/chainspec")).unwrap();
         fs::create_dir_all(root.join("assets/logs")).unwrap();
 
-        fs::write(root.join("docker-compose.yml"), "services: {}\n").unwrap();
+        fs::create_dir_all(root.join("docker")).unwrap();
+        fs::write(root.join("docker/docker-compose.yml"), "services: {}\n").unwrap();
         fs::write(root.join("assets/faucet/public_key_hex"), "FAUCETHEXDEADBEEF\n").unwrap();
         fs::write(root.join("assets/faucet/secret_key.pem"), "TOPSECRET\n").unwrap();
         fs::write(root.join("assets/faucet/public_key.pem"), "PUBPEM\n").unwrap();

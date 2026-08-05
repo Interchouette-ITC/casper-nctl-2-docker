@@ -1,6 +1,6 @@
 # Define the current directory and Docker Compose command
 CURRENT_DIR = .
-DEV_DC = docker compose -f $(CURRENT_DIR)/docker-compose.yml
+DEV_DC = docker compose -f $(CURRENT_DIR)/docker/docker-compose.yml
 
 # Extract the second argument from MAKECMDGOALS, defaulting to "stable" if not specified
 PROFILE ?= $(word 2,$(MAKECMDGOALS))

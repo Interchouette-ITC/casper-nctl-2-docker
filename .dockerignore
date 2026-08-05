@@ -1,7 +1,6 @@
 .git
 .github
 assets
-push_to_docker.sh
 *.md
 LICENSE
 .gitignore
