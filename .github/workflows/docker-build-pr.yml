@@ -67,4 +67,4 @@ jobs:
         uses: docker/setup-buildx-action@v4
       - name: Build cors-anywhere
         if: needs.detect.outputs.docker == 'true'
-        run: docker compose --profile cors-anywhere build
+        run: docker compose -f docker/docker-compose.yml --profile cors-anywhere build

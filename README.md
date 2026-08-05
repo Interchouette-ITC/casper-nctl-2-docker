@@ -106,8 +106,8 @@ Host `./assets` → faucet, users, chainspec, nodes (logs under `assets/nodes` a
 Optional proxy on **11100** for browser apps calling NCTL RPC:
 
 ```sh
-docker compose --profile 2.2 up -d
-docker compose --profile cors-anywhere up -d
+docker compose -f docker/docker-compose.yml --profile 2.2 up -d
+docker compose -f docker/docker-compose.yml --profile cors-anywhere up -d
 ```
 
 ## Docs
