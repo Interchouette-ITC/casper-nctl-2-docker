@@ -38,7 +38,7 @@ RUN apt-get update \
 
 COPY --from=builder /casper-nctl-2-docker-mcp /usr/local/bin/casper-nctl-2-docker-mcp
 
-ENV NCTL_MCP_HTTP=1 \
+ENV MCP_HTTP=true \
     NCTL_MCP_ADDR=0.0.0.0:8790 \
     NCTL_DOCKER_ROOT=/workspace \
     DOCKER_HOST=unix:///var/run/docker.sock \
