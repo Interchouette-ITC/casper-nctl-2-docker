@@ -57,6 +57,19 @@ fn unknown_profile_start_errors() {
 }
 
 #[test]
+fn start_docker_refuses_workspace_host_binds() {
+    use std::env;
+
+    let _g = common::lock_env();
+    env::set_var("NCTL_DOCKER_ROOT", "/workspace");
+    env::remove_var("NCTL_HOST_ROOT");
+    let out = ops::start_docker("dev");
+    assert!(out.contains("REFUSING"), "{out}");
+    assert!(out.contains("NCTL_HOST_ROOT"), "{out}");
+    env::remove_var("NCTL_DOCKER_ROOT");
+}
+
+#[test]
 fn status_runs_with_fixture() {
     let _fx = FakeRepo::new();
     let text = ops::status("2.2");

@@ -3,12 +3,21 @@
 use std::process::Command;
 
 use crate::assets;
-use crate::paths::{container_name_for_profile, repo_root, DEFAULT_MCP_URL, PROFILES};
+use crate::paths::{
+    container_name_for_profile, host_bind_root_is_unsafe, host_repo_root, repo_root,
+    unsafe_host_bind_message, DEFAULT_MCP_URL, PROFILES,
+};
 
 fn run(cmd: &str, args: &[&str]) -> (i32, String, String) {
+    let host = host_repo_root();
+    let host_s = host.to_string_lossy();
+    // cwd stays NCTL_DOCKER_ROOT (/workspace in MCP) so Makefile/compose files resolve;
+    // NCTL_HOST_ROOT + PWD must be the *host* path so Docker bind sources are correct.
     match Command::new(cmd)
         .args(args)
         .current_dir(repo_root())
+        .env("NCTL_HOST_ROOT", host_s.as_ref())
+        .env("PWD", host_s.as_ref())
         .output()
     {
         Ok(out) => (
@@ -17,6 +26,14 @@ fn run(cmd: &str, args: &[&str]) -> (i32, String, String) {
             String::from_utf8_lossy(&out.stderr).into_owned(),
         ),
         Err(e) => (127, String::new(), e.to_string()),
+    }
+}
+
+fn refuse_unsafe_host_binds(tool: &str) -> Option<String> {
+    if host_bind_root_is_unsafe() {
+        Some(unsafe_host_bind_message(tool))
+    } else {
+        None
     }
 }
 
@@ -49,11 +66,12 @@ fn make_profile(target: &str, profile: &str) -> String {
 
 fn docker_logs_tail(profile: &str, lines: u32) -> String {
     let name = container_name_for_profile(profile);
-    let (code, out, err) = run(
-        "docker",
-        &["logs", "--tail", &lines.to_string(), &name],
-    );
-    let text = if out.is_empty() { err } else { format!("{out}{err}") };
+    let (code, out, err) = run("docker", &["logs", "--tail", &lines.to_string(), &name]);
+    let text = if out.is_empty() {
+        err
+    } else {
+        format!("{out}{err}")
+    };
     if code != 0 && text.trim().is_empty() {
         return format!("(no docker logs yet for {name})");
     }
@@ -98,6 +116,9 @@ pub fn start_profile(profile: &str, pull_first: bool) -> String {
     if let Err(e) = require_profile(profile) {
         return e;
     }
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_start") {
+        return msg;
+    }
     if pull_first {
         let (code, out, err) = run("docker", &["compose", "--profile", profile, "pull"]);
         if code != 0 {
@@ -112,19 +133,31 @@ pub fn start_profile(profile: &str, pull_first: bool) -> String {
 
 /// `make start-log` parity: detached start + recent logs (no foreground hang).
 pub fn start_log(profile: &str, log_lines: u32) -> String {
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_start_log") {
+        return msg;
+    }
     let started = make_profile("start", profile);
     if started.contains("failed") {
         return started;
     }
-    format!("{started}\n\n{}", docker_logs_tail(profile, log_lines.clamp(20, 200)))
+    format!(
+        "{started}\n\n{}",
+        docker_logs_tail(profile, log_lines.clamp(20, 200))
+    )
 }
 
 pub fn build_start(profile: &str) -> String {
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_build_start") {
+        return msg;
+    }
     make_profile("build-start", profile)
 }
 
 /// `make build-start-log` parity: no-cache build + detached start + log tail.
 pub fn build_start_log(profile: &str, log_lines: u32) -> String {
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_build_start_log") {
+        return msg;
+    }
     let built = make_profile("build-no-cache", profile);
     if built.contains("failed") {
         return built;
@@ -144,6 +177,9 @@ pub fn stop_profile(profile: &str) -> String {
 }
 
 pub fn start_all(profile: &str) -> String {
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_start_all") {
+        return msg;
+    }
     make_profile("start-all", profile)
 }
 
@@ -164,10 +200,13 @@ pub fn start_docker(profile: &str) -> String {
     if let Err(e) = require_profile(profile) {
         return e;
     }
+    if let Some(msg) = refuse_unsafe_host_binds("nctl_start_docker") {
+        return msg;
+    }
     let name = hub_container_name(profile);
     let image = hub_image(profile);
-    let root = repo_root();
-    let assets = root.join("assets");
+    // Bind sources must be host paths (Docker daemon does not remap MCP /workspace).
+    let assets = host_repo_root().join("assets");
 
     // Remove leftover container with same name
     let _ = run("docker", &["rm", "-f", &name]);
@@ -358,10 +397,7 @@ mod tests {
 
     #[test]
     fn hub_names() {
-        assert_eq!(
-            hub_image("2.2"),
-            "interchouette/casper-nctl-2-docker:2.2"
-        );
+        assert_eq!(hub_image("2.2"), "interchouette/casper-nctl-2-docker:2.2");
         assert_eq!(hub_container_name("2.2"), "casper-nctl-2-docker-hub-2.2");
     }
 }

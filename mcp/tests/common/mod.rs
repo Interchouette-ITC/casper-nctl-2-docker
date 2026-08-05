@@ -11,6 +11,11 @@ fn env_lock() -> &'static Mutex<()> {
     LOCK.get_or_init(|| Mutex::new(()))
 }
 
+/// Serialize tests that mutate `NCTL_*` env vars (same lock as [`FakeRepo`]).
+pub fn lock_env() -> std::sync::MutexGuard<'static, ()> {
+    env_lock().lock().unwrap_or_else(|e| e.into_inner())
+}
+
 pub struct FakeRepo {
     pub root: PathBuf,
     _guard: std::sync::MutexGuard<'static, ()>,
@@ -40,11 +45,23 @@ impl FakeRepo {
 
         fs::create_dir_all(root.join("docker")).unwrap();
         fs::write(root.join("docker/docker-compose.yml"), "services: {}\n").unwrap();
-        fs::write(root.join("assets/faucet/public_key_hex"), "FAUCETHEXDEADBEEF\n").unwrap();
+        fs::write(
+            root.join("assets/faucet/public_key_hex"),
+            "FAUCETHEXDEADBEEF\n",
+        )
+        .unwrap();
         fs::write(root.join("assets/faucet/secret_key.pem"), "TOPSECRET\n").unwrap();
         fs::write(root.join("assets/faucet/public_key.pem"), "PUBPEM\n").unwrap();
-        fs::write(root.join("assets/users/user-1/public_key_hex"), "USER1HEX\n").unwrap();
-        fs::write(root.join("assets/users/user-2/public_key_hex"), "USER2HEX\n").unwrap();
+        fs::write(
+            root.join("assets/users/user-1/public_key_hex"),
+            "USER1HEX\n",
+        )
+        .unwrap();
+        fs::write(
+            root.join("assets/users/user-2/public_key_hex"),
+            "USER2HEX\n",
+        )
+        .unwrap();
         fs::write(
             root.join("assets/nodes/node-1/keys/public_key_hex"),
             "NODE1HEX\n",

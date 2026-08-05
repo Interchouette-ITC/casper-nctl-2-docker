@@ -43,6 +43,8 @@ ENV MCP_HTTP=true \
     NCTL_DOCKER_ROOT=/workspace \
     DOCKER_HOST=unix:///var/run/docker.sock \
     SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+# NCTL_HOST_ROOT must be passed at run time (host clone path). Lifecycle tools
+# refuse to start without it when NCTL_DOCKER_ROOT=/workspace.
 
 EXPOSE 8790
 

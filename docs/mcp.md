@@ -17,6 +17,7 @@ docker run --rm -d --name casper-nctl-2-docker-mcp \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$PWD":/workspace \
   -e NCTL_DOCKER_ROOT=/workspace \
+  -e NCTL_HOST_ROOT="$PWD" \
   interchouette/casper-nctl-2-docker-mcp:2.2
 ```
 
@@ -26,17 +27,17 @@ From a clone, `make mcp-http` / `make start-all 2.2` pulls (or builds) the same 
 
 ## Make matrix
 
-| Command | Effect |
-| --- | --- |
-| `make start 2.2` | NCTL only |
-| `make stop 2.2` | Stop NCTL profile |
-| `make start-all 2.2` | NCTL + MCP on **8790** |
-| `make stop-all 2.2` | Stop NCTL + MCP |
-| `make mcp-http` | MCP sidecar only (pull Hub image) |
-| `make mcp-http-stop` | Stop MCP sidecar |
-| `make mcp-build` | Build MCP image locally |
-| `make run-mcp` | Host **stdio** MCP (Rust toolchain) |
-| `make run-mcp-http` | Host HTTP on `127.0.0.1:8790` |
+| Command              | Effect                              |
+| -------------------- | ----------------------------------- |
+| `make start 2.2`     | NCTL only                           |
+| `make stop 2.2`      | Stop NCTL profile                   |
+| `make start-all 2.2` | NCTL + MCP on **8790**              |
+| `make stop-all 2.2`  | Stop NCTL + MCP                     |
+| `make mcp-http`      | MCP sidecar only (pull Hub image)   |
+| `make mcp-http-stop` | Stop MCP sidecar                    |
+| `make mcp-build`     | Build MCP image locally             |
+| `make run-mcp`       | Host **stdio** MCP (Rust toolchain) |
+| `make run-mcp-http`  | Host HTTP on `127.0.0.1:8790`       |
 
 ```bash
 casper-nctl-2-docker-mcp                         # stdio
@@ -54,44 +55,48 @@ Plain `make start` remains **NCTL only**.
 
 MCP drives **Docker** via Make/compose (or Hub `docker run`). It does not run NCTL as a host binary.
 
-| Tool | Make equivalent | Notes |
-| --- | --- | --- |
-| `nctl_build` | `make build` | Compose image build |
-| `nctl_build_no_cache` | `make build-no-cache` | Fresh build |
-| `nctl_start` | `make start` | Compose `up -d` |
-| `nctl_start_log` | `make start-log` | Detached + log tail (no TTY hang) |
-| `nctl_build_start` | `make build-start` | Build then `up -d` |
-| `nctl_build_start_log` | `make build-start-log` | No-cache build + start + log tail |
-| `nctl_stop` | `make stop` | Compose down |
-| `nctl_start_all` | `make start-all` | NCTL + MCP `:8790` |
-| `nctl_stop_all` | `make stop-all` | |
-| `nctl_start_docker` | `make start-docker` | Hub image `docker run` **detached** (Make uses `-it`) |
-| `nctl_stop_docker` | — | Remove Hub-run container |
-| `nctl_status` | — | Compose + hub-run + MCP + RPC |
-| `nctl_endpoints` | — | URLs |
-| `nctl_cors_start` | cors profile | Port 11100 |
-| `nctl_list_profiles` | — | Profiles + parity map |
+| Tool                   | Make equivalent        | Notes                                                 |
+| ---------------------- | ---------------------- | ----------------------------------------------------- |
+| `nctl_build`           | `make build`           | Compose image build                                   |
+| `nctl_build_no_cache`  | `make build-no-cache`  | Fresh build                                           |
+| `nctl_start`           | `make start`           | Compose `up -d`                                       |
+| `nctl_start_log`       | `make start-log`       | Detached + log tail (no TTY hang)                     |
+| `nctl_build_start`     | `make build-start`     | Build then `up -d`                                    |
+| `nctl_build_start_log` | `make build-start-log` | No-cache build + start + log tail                     |
+| `nctl_stop`            | `make stop`            | Compose down                                          |
+| `nctl_start_all`       | `make start-all`       | NCTL + MCP `:8790`                                    |
+| `nctl_stop_all`        | `make stop-all`        |                                                       |
+| `nctl_start_docker`    | `make start-docker`    | Hub image `docker run` **detached** (Make uses `-it`) |
+| `nctl_stop_docker`     | —                      | Remove Hub-run container                              |
+| `nctl_status`          | —                      | Compose + hub-run + MCP + RPC                         |
+| `nctl_endpoints`       | —                      | URLs                                                  |
+| `nctl_cors_start`      | cors profile           | Port 11100                                            |
+| `nctl_list_profiles`   | —                      | Profiles + parity map                                 |
 
 **Compose vs Hub:** `nctl_start*` = compose project (clone workflow). `nctl_start_docker` = published image without compose.
 
+**Host binds (critical):** MCP sees the repo at `/workspace` (container mount only — not a separate product directory). Docker `-v` sources must be the **host** clone path via `NCTL_HOST_ROOT`. That env is **not** optional in the MCP container: lifecycle tools **refuse** to start if it is missing or is `/` / `/workspace`. Without this, Hub/compose binds can create host `/workspace` on the root disk and fill it with multi‑GB node data.
+
+**Security limit:** MCP mounts the Docker socket → that is still host-root equivalent for anything Docker can do. The refuse guard only blocks the known footgun bind sources in our start tools; it does not sandbox Docker itself.
+
 ### Assets (faucet first-class)
 
-| Tool | Behavior |
-| --- | --- |
-| `nctl_assets_summary` | faucet/users/nodes/chainspec/logs presence |
-| `nctl_faucet_info` | Faucet `public_key_hex` only (no secrets; no CSPR transfer in v1) |
-| `nctl_list_nodes` | `node-N` dirs and keys/logs/storage/config |
-| `nctl_list_users` | `user-N` (+ optional public hex) |
-| `nctl_read_public_key` | `faucet` \| `user-N` \| `node-N` |
-| `nctl_read_chainspec` | List/read size-capped text under `assets/` (refuses secrets) |
+| Tool                   | Behavior                                                          |
+| ---------------------- | ----------------------------------------------------------------- |
+| `nctl_assets_summary`  | faucet/users/nodes/chainspec/logs presence                        |
+| `nctl_faucet_info`     | Faucet `public_key_hex` only (no secrets; no CSPR transfer in v1) |
+| `nctl_list_nodes`      | `node-N` dirs and keys/logs/storage/config                        |
+| `nctl_list_users`      | `user-N` (+ optional public hex)                                  |
+| `nctl_read_public_key` | `faucet` \| `user-N` \| `node-N`                                  |
+| `nctl_read_chainspec`  | List/read size-capped text under `assets/` (refuses secrets)      |
 
 ### Logs
 
-| Tool | Behavior |
-| --- | --- |
-| `nctl_logs_list` | Files under `assets/logs` and `nodes/*/logs` |
-| `nctl_logs` | Tail: `docker` \| `assets_stdout` \| `sidecar` \| `node` |
-| `nctl_logs_grep` | Case-insensitive grep (capped matches) |
+| Tool             | Behavior                                                 |
+| ---------------- | -------------------------------------------------------- |
+| `nctl_logs_list` | Files under `assets/logs` and `nodes/*/logs`             |
+| `nctl_logs`      | Tail: `docker` \| `assets_stdout` \| `sidecar` \| `node` |
+| `nctl_logs_grep` | Case-insensitive grep (capped matches)                   |
 
 **Safety:** never returns `secret_key.pem`; paths confined under `assets/`; log payloads capped.
 

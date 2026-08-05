@@ -106,6 +106,9 @@ mcp-docker-push-dev-ghcr-itc:
 start-docker:
 	docker run --rm -it ${IMAGE_NAME}:$(PROFILE)
 
+# Host path for Docker bind mounts (MCP must set this to the host clone; not /workspace).
+HOST_ROOT := $(or $(NCTL_HOST_ROOT),$(CURDIR))
+
 # List of ports to expose
 DOCKER_PORTS = \
 	-p 11101-11105:11101-11105 \
@@ -114,12 +117,12 @@ DOCKER_PORTS = \
 	-p 25101-25105:25101-25105 \
 	-p 28101-28105:28101-28105
 
-# Common Docker volume mappings
+# Common Docker volume mappings (host paths — never MCP /workspace)
 DOCKER_VOLUMES = \
-	-v ${PWD}/assets/faucet:/app/casper-nctl/assets/net-1/faucet \
-	-v ${PWD}/assets/users:/app/casper-nctl/assets/net-1/users \
-	-v ${PWD}/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec \
-	-v ${PWD}/assets/nodes:/app/casper-nctl/assets/net-1/nodes
+	-v $(HOST_ROOT)/assets/faucet:/app/casper-nctl/assets/net-1/faucet \
+	-v $(HOST_ROOT)/assets/users:/app/casper-nctl/assets/net-1/users \
+	-v $(HOST_ROOT)/assets/chainspec:/app/casper-nctl/assets/net-1/chainspec \
+	-v $(HOST_ROOT)/assets/nodes:/app/casper-nctl/assets/net-1/nodes
 
 # Run container based on passed version
 define RUN_DOCKER

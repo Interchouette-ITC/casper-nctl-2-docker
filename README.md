@@ -22,6 +22,7 @@ docker run --rm -d --name casper-nctl-2-docker-mcp \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$PWD":/workspace \
   -e NCTL_DOCKER_ROOT=/workspace \
+  -e NCTL_HOST_ROOT="$PWD" \
   interchouette/casper-nctl-2-docker-mcp:2.2
 ```
 
