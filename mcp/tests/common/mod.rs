@@ -11,11 +11,6 @@ fn env_lock() -> &'static Mutex<()> {
     LOCK.get_or_init(|| Mutex::new(()))
 }
 
-/// Serialize tests that mutate `NCTL_*` env vars (same lock as [`FakeRepo`]).
-pub fn lock_env() -> std::sync::MutexGuard<'static, ()> {
-    env_lock().lock().unwrap_or_else(|e| e.into_inner())
-}
-
 pub struct FakeRepo {
     pub root: PathBuf,
     _guard: std::sync::MutexGuard<'static, ()>,
