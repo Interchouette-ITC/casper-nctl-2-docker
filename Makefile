@@ -44,7 +44,7 @@ start-log:
 stop:
 	$(DEV_DC) --profile $(PROFILE) down
 
-# NCTL profile + MCP HTTP sidecar on :8791
+# NCTL profile + MCP HTTP sidecar on :8790
 start-all: start mcp-http
 
 stop-all: stop mcp-http-stop
@@ -75,7 +75,7 @@ run-mcp:
 	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet --
 
 run-mcp-http:
-	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet -- --http --listen 127.0.0.1:8791
+	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet -- --http --listen 127.0.0.1:8790
 
 mcp-docker-push-hub:
 	docker push $(MCP_HUB):$(MCP_TAG)

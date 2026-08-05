@@ -11,14 +11,14 @@ Assets under `./assets` are **testnet-only**. Do not use them on mainnet.
 
 ## MCP
 
-Control and debug the local testnet over MCP (stdio or Streamable HTTP on port **8791**).
+Control and debug the local testnet over MCP (stdio or Streamable HTTP on port **8790**).
 
 Pull and run (no Rust toolchain required):
 
 ```bash
 docker pull interchouette/casper-nctl-2-docker-mcp:2.2
 docker run --rm -d --name casper-nctl-2-docker-mcp \
-  -p 8791:8791 \
+  -p 8790:8790 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$PWD":/workspace \
   -e NCTL_DOCKER_ROOT=/workspace \
@@ -28,13 +28,13 @@ docker run --rm -d --name casper-nctl-2-docker-mcp \
 From a clone:
 
 ```sh
-make start-all 2.2      # NCTL + MCP at http://127.0.0.1:8791/mcp
+make start-all 2.2      # NCTL + MCP at http://127.0.0.1:8790/mcp
 make stop-all 2.2
 make mcp-http           # MCP only (pulls Hub image)
 make run-mcp            # stdio on the host (needs Rust)
 ```
 
-Cursor: `"url": "http://127.0.0.1:8791/mcp"` — see [`mcp/mcp.json.example`](mcp/mcp.json.example) and [`docs/mcp.md`](docs/mcp.md).
+Cursor: `"url": "http://127.0.0.1:8790/mcp"` — see [`mcp/mcp.json.example`](mcp/mcp.json.example) and [`docs/mcp.md`](docs/mcp.md).
 
 `make start` starts **NCTL only**. Use `start-all` / `mcp-http` when you want MCP.
 
@@ -93,9 +93,9 @@ make run-mcp-http
 | `25101-25105` | Node sidecar (2.x)    |
 | `28101-28105` | Additional            |
 | `11100`       | CORS proxy (optional) |
-| `8791`        | MCP HTTP (`/mcp`)     |
+| `8790`        | MCP HTTP (`/mcp`)     |
 
-Up check: container `casper-nctl-2-docker-<profile>`; RPC `http://127.0.0.1:11101/rpc`; MCP `http://127.0.0.1:8791/mcp`.
+Up check: container `casper-nctl-2-docker-<profile>`; RPC `http://127.0.0.1:11101/rpc`; MCP `http://127.0.0.1:8790/mcp`.
 
 ## Volumes
 

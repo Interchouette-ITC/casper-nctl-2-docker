@@ -111,13 +111,13 @@ services:
       context: ./mcp
       dockerfile: Dockerfile
     ports:
-      - "8791:8791"
+      - "8790:8790"
     volumes:
       - ${PWD}:/workspace:rw
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       NCTL_DOCKER_ROOT: /workspace
       NCTL_MCP_HTTP: "1"
-      NCTL_MCP_ADDR: "0.0.0.0:8791"
+      NCTL_MCP_ADDR: "0.0.0.0:8790"
       DOCKER_HOST: unix:///var/run/docker.sock
     working_dir: /workspace

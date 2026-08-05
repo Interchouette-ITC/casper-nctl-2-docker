@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "casper-nctl-2-docker-http": {
-      "url": "http://127.0.0.1:8791/mcp"
+      "url": "http://127.0.0.1:8790/mcp"
     },
     "casper-nctl-2-docker-stdio": {
       "command": "docker",

@@ -1,4 +1,4 @@
-# casper-nctl-2-docker-mcp — Streamable HTTP on :8791
+# casper-nctl-2-docker-mcp — Streamable HTTP on :8790
 # Build context: mcp/
 
 ARG RUST_IMAGE=rust:slim-bookworm
@@ -39,12 +39,12 @@ RUN apt-get update \
 COPY --from=builder /casper-nctl-2-docker-mcp /usr/local/bin/casper-nctl-2-docker-mcp
 
 ENV NCTL_MCP_HTTP=1 \
-    NCTL_MCP_ADDR=0.0.0.0:8791 \
+    NCTL_MCP_ADDR=0.0.0.0:8790 \
     NCTL_DOCKER_ROOT=/workspace \
     DOCKER_HOST=unix:///var/run/docker.sock \
     SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
-EXPOSE 8791
+EXPOSE 8790
 
 WORKDIR /workspace
-CMD ["casper-nctl-2-docker-mcp", "--http", "--listen", "0.0.0.0:8791"]
+CMD ["casper-nctl-2-docker-mcp", "--http", "--listen", "0.0.0.0:8790"]

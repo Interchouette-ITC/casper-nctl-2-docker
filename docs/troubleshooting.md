@@ -6,7 +6,7 @@
 
 **RPC not ready yet** — Nodes need time after `nctl-start`. Retry `info_get_status` on `11101`.
 
-**MCP not reachable on 8791** — Plain `make start` does not start MCP. Use `make start-all <profile>` or `make mcp-http`. Check `docker ps` for `casper-nctl-2-docker-mcp`.
+**MCP not reachable on 8790** — Plain `make start` does not start MCP. Use `make start-all <profile>` or `make mcp-http`. Check `docker ps` for `casper-nctl-2-docker-mcp`.
 
 **Permission denied on assets** — Container may write root-owned files under `./assets`. Use `sudo` to inspect or fix ownership locally if needed.
 
