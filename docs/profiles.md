@@ -8,9 +8,11 @@ Compose **profiles** match image **tags** for published builds.
 | `stable` / `2.2` | v2.2.2 | v5.0.1 | v2.1.0  | `stable`, `2.2`, `latest` | yes                  |
 | `2.0`            | v2.0.4 | v5.0.0 | v2.0.0  | `2.0`                     | manual dispatch only |
 | `2.1`            | v2.1.2 | v5.0.0 | v2.0.0  | `2.1`                     | manual dispatch only |
-| `dev`            | dev    | dev    | dev     | `dev`                     | yes (+ daily cron)   |
+| `dev`            | v2.2.2 | v5.0.1 | v2.1.0  | `dev`                     | yes (+ daily cron)   |
 
 Pull published images from `interchouette/casper-nctl-2-docker` (legacy `gregoshop/casper-nctl` is archived). Rebuild policy: [Versioning](versioning.md).
+
+`dev` matches `2.2` pins while [casper-node `dev`](https://github.com/casper-network/casper-node/blob/dev/node/Cargo.toml) still declares `2.2.0`; switch back to live `dev` branches when that line advances.
 
 ```sh
 make start stable

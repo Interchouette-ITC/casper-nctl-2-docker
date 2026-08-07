@@ -87,9 +87,14 @@ services:
     profiles: ["dev"]
     build:
       args:
-        - BRANCH_NODE=dev
-        - BRANCH_CLIENT=dev
-        - BRANCH_SIDECAR=dev
+        # casper-node branch `dev` still declares package version 2.2.0
+        # "2.2.0" (https://github.com/casper-network/casper-node/blob/dev/node/Cargo.toml#L3),
+        # (node/Cargo.toml) while release tag v2.2.2 carries types 7.1.1.
+        # Pin tip Hub `:dev` to v2.2.2 until node/dev moves forward — same
+        # override as casper-rust-wasm-sdk Cargo.toml [patch].
+        - BRANCH_NODE=v2.2.2
+        - BRANCH_CLIENT=v5.0.1
+        - BRANCH_SIDECAR=v2.1.0
 
   cors-anywhere:
     container_name: cors-anywhere
