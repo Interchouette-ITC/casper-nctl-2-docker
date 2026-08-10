@@ -13,6 +13,7 @@ IMAGE_NAME=interchouette/casper-nctl-2-docker
 MCP_NAME=casper-nctl-2-docker-mcp
 MCP_HUB=interchouette/casper-nctl-2-docker-mcp
 MCP_GHCR_PERSONAL=ghcr.io/groussac/casper-nctl-2-docker-mcp
+MCP_GHCR_WORKER=ghcr.io/interchouette/casper-nctl-2-docker-mcp
 MCP_GHCR_ORG=ghcr.io/interchouette-itc/casper-nctl-2-docker-mcp
 MCP_TAG=2.2
 
@@ -58,7 +59,7 @@ mcp-build:
 
 mcp-build-dev:
 	docker build -t $(MCP_NAME):dev -t $(MCP_HUB):dev \
-		-t $(MCP_GHCR_PERSONAL):dev -t $(MCP_GHCR_ORG):dev \
+		-t $(MCP_GHCR_PERSONAL):dev -t $(MCP_GHCR_WORKER):dev -t $(MCP_GHCR_ORG):dev \
 		-f mcp/Dockerfile mcp
 
 # Prefer Hub image; build locally if pull fails
@@ -88,8 +89,12 @@ mcp-docker-push-ghcr-personal:
 	docker push $(MCP_GHCR_PERSONAL):latest
 
 mcp-docker-push-ghcr-itc:
+	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_WORKER):$(MCP_TAG)
+	docker tag $(MCP_HUB):latest $(MCP_GHCR_WORKER):latest
 	docker tag $(MCP_HUB):$(MCP_TAG) $(MCP_GHCR_ORG):$(MCP_TAG)
 	docker tag $(MCP_HUB):latest $(MCP_GHCR_ORG):latest
+	docker push $(MCP_GHCR_WORKER):$(MCP_TAG)
+	docker push $(MCP_GHCR_WORKER):latest
 	docker push $(MCP_GHCR_ORG):$(MCP_TAG)
 	docker push $(MCP_GHCR_ORG):latest
 
@@ -100,6 +105,7 @@ mcp-docker-push-dev-ghcr-personal:
 	docker push $(MCP_GHCR_PERSONAL):dev
 
 mcp-docker-push-dev-ghcr-itc:
+	docker push $(MCP_GHCR_WORKER):dev
 	docker push $(MCP_GHCR_ORG):dev
 
 # Start the Docker container based on the specified profile (e.g. stable, 2.2, dev)

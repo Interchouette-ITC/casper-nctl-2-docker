@@ -46,27 +46,40 @@ jobs:
           docker push interchouette/casper-nctl-2-docker:stable
           docker push interchouette/casper-nctl-2-docker:latest
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR (personal)
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Tag Docker image for 2.2
+      - name: Tag and push personal GHCR
         run: |
           docker tag casper-nctl-2-docker-2.2 ghcr.io/groussac/casper-nctl-2-docker:2.2
           docker tag casper-nctl-2-docker-2.2 ghcr.io/groussac/casper-nctl-2-docker:stable
           docker tag casper-nctl-2-docker-2.2 ghcr.io/groussac/casper-nctl-2-docker:latest
-          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:2.2
-          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:stable
-          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:latest
-
-      - name: Push Docker image to GHCR
-        run: |
           docker push ghcr.io/groussac/casper-nctl-2-docker:2.2
           docker push ghcr.io/groussac/casper-nctl-2-docker:stable
           docker push ghcr.io/groussac/casper-nctl-2-docker:latest
+
+      - name: Log in to GHCR (Interchouette / ITC)
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME_ITC }}
+          password: ${{ secrets.GHCR_PAT_ITC }}
+
+      - name: Tag and push worker and org GHCR
+        run: |
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette/casper-nctl-2-docker:2.2
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:2.2
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette/casper-nctl-2-docker:stable
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:stable
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette/casper-nctl-2-docker:latest
+          docker tag casper-nctl-2-docker-2.2 ghcr.io/interchouette-itc/casper-nctl-2-docker:latest
+          docker push ghcr.io/interchouette/casper-nctl-2-docker:2.2
           docker push ghcr.io/interchouette-itc/casper-nctl-2-docker:2.2
+          docker push ghcr.io/interchouette/casper-nctl-2-docker:stable
           docker push ghcr.io/interchouette-itc/casper-nctl-2-docker:stable
+          docker push ghcr.io/interchouette/casper-nctl-2-docker:latest
           docker push ghcr.io/interchouette-itc/casper-nctl-2-docker:latest

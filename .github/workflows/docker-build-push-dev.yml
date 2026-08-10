@@ -44,19 +44,28 @@ jobs:
         run: |
           docker push interchouette/casper-nctl-2-docker:dev
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR (personal)
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Tag Docker image for dev
+      - name: Tag and push personal GHCR
         run: |
           docker tag casper-nctl-2-docker-dev ghcr.io/groussac/casper-nctl-2-docker:dev
-          docker tag casper-nctl-2-docker-dev ghcr.io/interchouette-itc/casper-nctl-2-docker:dev
-
-      - name: Push Docker image to GHCR
-        run: |
           docker push ghcr.io/groussac/casper-nctl-2-docker:dev
+
+      - name: Log in to GHCR (Interchouette / ITC)
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME_ITC }}
+          password: ${{ secrets.GHCR_PAT_ITC }}
+
+      - name: Tag and push worker and org GHCR
+        run: |
+          docker tag casper-nctl-2-docker-dev ghcr.io/interchouette/casper-nctl-2-docker:dev
+          docker tag casper-nctl-2-docker-dev ghcr.io/interchouette-itc/casper-nctl-2-docker:dev
+          docker push ghcr.io/interchouette/casper-nctl-2-docker:dev
           docker push ghcr.io/interchouette-itc/casper-nctl-2-docker:dev
