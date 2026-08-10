@@ -7,6 +7,9 @@ on:
 
 # No paths-ignore: branch protection requires these job names on every PR.
 # Active PR image builds: 2.2 + cors only (2.1 is parked like push publish).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   detect:
     name: Detect Docker-relevant changes

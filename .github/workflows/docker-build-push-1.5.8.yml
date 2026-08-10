@@ -4,6 +4,9 @@ name: CI/CD Image 1.5.8 / 1.6
 on:
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   nightly-build-push-1-5-8:
     name: Build and Push Docker Image 1.5.8 (alias 1.6)

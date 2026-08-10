@@ -4,6 +4,9 @@ name: CI/CD Image 2.1
 on:
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   nightly-build-push-2-1:
     name: Build and Push Docker Image 2.1

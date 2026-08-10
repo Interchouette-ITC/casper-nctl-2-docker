@@ -12,6 +12,9 @@ on:
       - "LICENSE"
       - "CHANGELOG.md"
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   nightly-build-push-2-2:
     name: Build and Push Docker Image 2.2
