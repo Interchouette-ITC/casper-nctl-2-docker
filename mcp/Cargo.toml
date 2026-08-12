@@ -2,6 +2,7 @@
 name = "casper-nctl-2-docker-mcp"
 version = "0.2.2"
 edition = "2021"
+authors = ["Interchouette <contact@interchouette.net>"]
 rust-version = "1.85"
 license = "Apache-2.0"
 description = "MCP server for casper-nctl-2-docker (stdio + Streamable HTTP)"
