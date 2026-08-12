@@ -5,7 +5,7 @@
 | NCTL testnet | `stable`, `2.2`, `latest` (same image); also `2.1`, `dev`, … | `interchouette/casper-nctl-2-docker`     |
 | MCP sidecar  | `2.2` + `latest` (release); `dev` (tip)                      | `interchouette/casper-nctl-2-docker-mcp` |
 
-NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP **image** tags (`:2.2`, `:latest`, `:dev`) are the publish line; the MCP **crate** version in `mcp/Cargo.toml` is independent semver (currently `0.2.2`).
+NCTL profile tags follow Casper node/client/sidecar pins (see [Profiles](profiles.md)). MCP **image** tags (`:2.2`, `:latest`, `:dev`) are the publish line; the MCP **crate** version in `mcp/Cargo.toml` is independent semver (currently `0.3.0`).
 
 Hub **`:dev`** currently builds the same node/client/sidecar pins as **`:2.2`** (`v2.2.2` / `v5.0.1` / `v2.1.0`). casper-node branch `dev` still declares package version `2.2.0`, so tip consumers (e.g. casper-rust-wasm-sdk) that track tag `v2.2.2` stay wire-compatible. When node/`dev` moves forward, switch the compose `dev` profile back to `BRANCH_*=dev`.
 

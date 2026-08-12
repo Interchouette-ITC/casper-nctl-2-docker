@@ -2,12 +2,13 @@
 
 All notable changes to **casper-nctl-2-docker** packaging and the **MCP sidecar** are listed here.
 
-Image tags (`stable`, `2.2`, `dev`, …) are shared by the NCTL and MCP images — see [docs/versioning.md](docs/versioning.md).
+Image tags (`stable`, `2.2`, `dev`, …) are shared by the NCTL and MCP images - see [docs/versioning.md](docs/versioning.md).
 
 ## Unreleased
 
 ### Changed
 
+- MCP crate `0.3.0`: migrate from mcpkit to **rmcp 3.1.2** (stdio + Streamable HTTP on `/mcp`); refresh Cargo dependencies.
 - Profile / Hub tag `dev`: pin node/client/sidecar to `v2.2.2` / `v5.0.1` / `v2.1.0` (same as `2.2`) until casper-node branch `dev` moves past package version `2.2.0`.
 
 ## [2.2] - 2026-08-02
