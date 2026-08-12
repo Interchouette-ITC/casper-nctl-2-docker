@@ -6,7 +6,6 @@ rust-version = "1.85"
 license = "Apache-2.0"
 description = "MCP server for casper-nctl-2-docker (stdio + Streamable HTTP)"
 readme = "README.md"
-authors = ["Interchouette <contact@interchouette.net>"]
 
 [[bin]]
 name = "casper-nctl-2-docker-mcp"
@@ -23,7 +22,14 @@ mcpkit = "0.7"
 mcpkit-axum = "0.7"
 regex = "1"
 serde_json = "1"
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "process", "time", "fs", "io-util"] }
+tokio = { version = "1", features = [
+    "macros",
+    "rt-multi-thread",
+    "process",
+    "time",
+    "fs",
+    "io-util",
+] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 

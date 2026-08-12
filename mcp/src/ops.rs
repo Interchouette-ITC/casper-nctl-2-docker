@@ -334,23 +334,38 @@ fn docker_ps_names() -> Vec<String> {
 }
 
 fn rpc_reachable() -> bool {
+    // Cursor MCP often runs this binary inside Docker. 127.0.0.1 there is the
+    // MCP container, not the host-published NCTL ports. Probe host gateway first.
     let body = r#"{"jsonrpc":"2.0","id":1,"method":"info_get_status","params":[]}"#;
-    let (code, _, _) = run(
-        "curl",
-        &[
-            "-sS",
-            "-m",
-            "2",
-            "-X",
-            "POST",
-            "http://127.0.0.1:11101/rpc",
-            "-H",
-            "Content-Type: application/json",
-            "-d",
-            body,
-        ],
-    );
-    code == 0
+    let mut urls: Vec<String> = Vec::new();
+    if let Ok(u) = std::env::var("NCTL_RPC_PROBE_URL") {
+        if !u.is_empty() {
+            urls.push(u);
+        }
+    }
+    urls.push("http://host.docker.internal:11101/rpc".into());
+    urls.push("http://127.0.0.1:11101/rpc".into());
+    for url in urls {
+        let (code, _, _) = run(
+            "curl",
+            &[
+                "-sS",
+                "-m",
+                "2",
+                "-X",
+                "POST",
+                &url,
+                "-H",
+                "Content-Type: application/json",
+                "-d",
+                body,
+            ],
+        );
+        if code == 0 {
+            return true;
+        }
+    }
+    false
 }
 
 pub fn status(profile: &str) -> String {
