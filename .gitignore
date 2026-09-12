@@ -12,3 +12,6 @@ mcp/assets/
 
 # MkDocs output
 site/
+
+# llvm-cov output
+/coverage/
