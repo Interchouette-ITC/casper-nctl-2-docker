@@ -78,6 +78,46 @@ run-mcp:
 run-mcp-http:
 	NCTL_DOCKER_ROOT="$(CURDIR)" cargo run --manifest-path mcp/Cargo.toml --quiet -- --http --listen 127.0.0.1:8790
 
+## MCP supply-chain / coverage (Rust crate under mcp/)
+COVERAGE_IGNORE := examples/|benches/
+
+mcp-coverage:
+	mkdir -p coverage
+	cd mcp && RUSTUP_TOOLCHAIN=stable cargo llvm-cov --locked --lcov \
+		--ignore-filename-regex '$(COVERAGE_IGNORE)' \
+		--output-path ../coverage/lcov.info
+
+mcp-coverage-summary:
+	cd mcp && RUSTUP_TOOLCHAIN=stable cargo llvm-cov --locked --summary-only \
+		--ignore-filename-regex '$(COVERAGE_IGNORE)'
+
+mcp-coverage-html:
+	mkdir -p coverage
+	cd mcp && RUSTUP_TOOLCHAIN=stable cargo llvm-cov --locked --html \
+		--ignore-filename-regex '$(COVERAGE_IGNORE)' \
+		--output-dir ../coverage/html
+
+mcp-audit:
+	cd mcp && cargo audit
+
+mcp-deny:
+	cd mcp && cargo deny check
+
+mcp-machete:
+	cd mcp && cargo machete
+
+mcp-outdated:
+	cd mcp && cargo outdated
+
+# Aliases matching the shared Make kit names (MCP crate).
+coverage: mcp-coverage
+coverage-summary: mcp-coverage-summary
+coverage-html: mcp-coverage-html
+audit: mcp-audit
+deny: mcp-deny
+machete: mcp-machete
+outdated: mcp-outdated
+
 mcp-docker-push-hub:
 	docker push $(MCP_HUB):$(MCP_TAG)
 	docker push $(MCP_HUB):latest
@@ -151,4 +191,6 @@ start-docker-%:
 	stop start-all stop-all \
 	mcp-build mcp-build-dev mcp-http mcp-http-stop run-mcp run-mcp-http \
 	mcp-docker-push-hub mcp-docker-push-ghcr-personal mcp-docker-push-ghcr-itc \
-	mcp-docker-push-dev-hub mcp-docker-push-dev-ghcr-personal mcp-docker-push-dev-ghcr-itc
+	mcp-docker-push-dev-hub mcp-docker-push-dev-ghcr-personal mcp-docker-push-dev-ghcr-itc \
+	mcp-coverage mcp-coverage-summary mcp-coverage-html mcp-audit mcp-deny mcp-machete mcp-outdated \
+	coverage coverage-summary coverage-html audit deny machete outdated

@@ -8,7 +8,9 @@ on:
       - "mcp/examples/**/*.rs"
       - "mcp/Cargo.toml"
       - "mcp/Cargo.lock"
+      - "mcp/deny.toml"
       - "mcp/Dockerfile"
+      - "Makefile"
       - ".github/workflows/mcp-ci.yml"
   push:
     branches: [dev]
@@ -18,8 +20,13 @@ on:
       - "mcp/examples/**/*.rs"
       - "mcp/Cargo.toml"
       - "mcp/Cargo.lock"
+      - "mcp/deny.toml"
       - "mcp/Dockerfile"
+      - "Makefile"
       - ".github/workflows/mcp-ci.yml"
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
@@ -31,13 +38,38 @@ jobs:
       - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy
+          components: clippy, llvm-tools-preview
+      - name: Install cargo-audit and cargo-deny
+        run: |
+          cargo install --locked cargo-audit --version 0.22.0
+          cargo install --locked cargo-deny --version 0.20.2
+        working-directory: .
+      - name: Audit
+        run: make audit
+        working-directory: .
+      - name: Deny
+        run: make deny
+        working-directory: .
       - name: Cargo test (lib + integration)
         run: cargo test
       - name: Build examples
         run: cargo build --examples
       - name: Clippy
         run: cargo clippy --all-targets --examples -- -D warnings
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-llvm-cov
+      - name: Coverage
+        run: make coverage
+        working-directory: .
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v6
+        with:
+          files: coverage/lcov.info
+          flags: rust
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Build MCP image
         run: |
           docker build -t casper-nctl-2-docker-mcp:2.2 -t casper-nctl-2-docker-mcp:latest -t casper-nctl-2-docker-mcp:ci .
